@@ -1,0 +1,38 @@
+{
+  "name": "baileo-programming-language",
+  "displayName": "Baileo Programming Language",
+  "description": "Baileo Programming Language is a coding language developed to help build web applications",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.69.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "baileo",
+      "aliases": ["Baileo", "baileo"],
+      "extensions": [".bly .baileo .by",".bo"],
+      "configuration": "./language-configuration.json",
+      "icon": {
+        "light": "./icon.png",
+        "dark": "./icon.png"
+      }
+    }],
+    "grammars": [{
+      "language": "baileo",
+      "scopeName": "source.by",
+      "path": "./syntaxes/baileo.tmLanguage.json"
+    }]
+  },
+  "keywords": [
+		"baileo",
+    ".by"
+	],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aaron-meche/by-language.git"
+  },
+  "publisher": "aaron-meche"
+}
