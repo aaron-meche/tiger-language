@@ -1,0 +1,38 @@
+{
+  "name": "tiger-programming-language",
+  "displayName": "Tiger Programming Language",
+  "description": "Tiger Programming Language is a coding language developed to help build web applications, designed for the Baileo App Library",
+  "version": "1.1.0",
+  "engines": {
+    "vscode": "^1.69.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "tiger",
+      "aliases": ["Tiger", "tiger"],
+      "extensions": [".t .tiger .by",".tga"],
+      "configuration": "./language-configuration.json",
+      "icon": {
+        "light": "./icon.png",
+        "dark": "./icon.png"
+      }
+    }],
+    "grammars": [{
+      "language": "tiger",
+      "scopeName": "source.tga",
+      "path": "./syntaxes/tiger.tmLanguage.json"
+    }]
+  },
+  "keywords": [
+		"tiger",
+    ".tga"
+	],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aaron-meche/by-language.git"
+  },
+  "publisher": "aaron-meche"
+}
