@@ -1,1 +1,0 @@
-Created by Aaron Meche (https://tiger.us/aaron)
