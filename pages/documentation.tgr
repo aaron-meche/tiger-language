@@ -1,0 +1,39 @@
+import css : https://baileo.us/style/shared.css
+import css : https://baileo.us/style/desktop.css : media[screen and (hover: hover) and (pointer: fine) and (min-width: 800px)]
+import css : https://baileo.us/style/mobile.css : media[screen and (hover: hover) and (pointer: fine) and (max-width: 800px)]
+import css : https://baileo.us/style/mobile.css : media[screen and (hover: none) and (pointer: coarse)]
+import css : shared.css
+import css : desktop.css : media[screen and (hover: hover) and (pointer: fine) and (min-width: 800px)]
+import css : mobile.css : media[screen and (hover: hover) and (pointer: fine) and (max-width: 800px)]
+import css : mobile.css : media[screen and (hover: none) and (pointer: coarse)]
+import meta : name[viewport] content[initial-scale = 1, user-scalable = no]
+
+title : Tiger Programming Language
+
+nav-block : class[navbar main-navbar]
+	block : class[left-navbar side-navbar]
+		image : images/logo.png : class[navbar-logo] onclick[open_page('home')]
+	/block
+	block : id[mobileNavbarDropMenu] onclick[mobileNavMenu()]
+		block
+			item : onclick[open_page('home')] class[navbar-link-item]
+				:: Home
+			/item
+			item : onclick[open_page('documentation')] class[navbar-link-item active-navbar-link-item]
+				:: Documentation
+			/item
+			item : onclick[open_page('downloads')] class[navbar-link-item]
+				:: Downloads
+			/item
+		/block
+	/block
+	block : class[right-navbar side-navbar]
+		block : class[mobile-navbar]
+			image : https://baileo.us/images/menu.png : class[navbar-link-item] onclick[mobileNavMenu()] id[expandMobileNavMenu]
+			image : https://baileo.us/images/close.png : class[navbar-link-item] onclick[mobileNavMenu()] id[closeMobileNavMenu] style[display:none;]
+		/block
+	## : 	image : images/search.png : class[navbar-link-item] onclick[open_page('search')]
+	## : 	image : images/app menu.png : class[navbar-link-item] onclick[open_page('apps')]
+	/block
+/block
+

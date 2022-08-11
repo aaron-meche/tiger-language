@@ -19,10 +19,10 @@ nav-block : class[navbar main-navbar]
 			item : onclick[open_page('home')] class[navbar-link-item active-navbar-link-item]
 				:: Home
 			/item
-			item : onclick[open_page('tv')] class[navbar-link-item]
+			item : onclick[open_page('documentation')] class[navbar-link-item]
 				:: Documentation
 			/item
-			item : onclick[open_page('movies')] class[navbar-link-item]
+			item : onclick[open_page('downloads')] class[navbar-link-item]
 				:: Downloads
 			/item
 		/block
@@ -40,6 +40,98 @@ nav-block : class[navbar main-navbar]
 block : class[page]
 	h : Tiger Language
 	block : class[paragraph]
-		:: The Tiger Programming Language <strong>(.tgr)</strong> is a coding language designed for simplicity, cleanliness, and speed. The syntax of Tiger as opposed to HTML code is more consice, simple, lightweight, and clean. For example, let's create a simple page with a forn and 3 text input fields. 
+		:: The Tiger Programming Language (.tgr) is a coding language designed for simplicity, cleanliness, and speed. The syntax of Tiger as opposed to HTML is more consice, simple, lightweight, and clean. To demonstrate, let's create a simple page with a form and 3 text input fields. 
+	/block
+	hh : In HTML (13 Lines)
+	block : class[code]
+		:: <span style='color:lightcoral'> &lthtml&gt </span>
+		break
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+
+		:: <span style='color:lightcoral'> &lthead&gt </span>
+		break
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+
+		:: <span style='color:lightcoral'>&ltlink rel='stylesheet' href='style.css'&gt</span>
+		break
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+
+		:: <span style='color:lightcoral'> &lttitle&gt </span>
+		:: Page Title
+		:: <span style='color:lightcoral'> &lt/title&gt </span>
+		break
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+
+		:: <span style='color:lightcoral'> &lt/head&gt </span>
+		break
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+
+		:: <span style='color:lightcoral'> &ltbody&gt </span>
+		break
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+
+		:: <span style='color:lightcoral'> &ltform id='sampleForm'&gt </span>
+		break
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+
+		:: <span style='color:lightcoral'> &ltinput type='text' name='input_1 placeholder='First Input'&gt </span>
+		break
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+
+		:: <span style='color:lightcoral'> &ltinput type='text' name='input_2 placeholder='Second Input'&gt </span>
+		break
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+
+		:: <span style='color:lightcoral'> &ltinput type='text' name='input_3 placeholder='Third Input'&gt </span>
+		break
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+
+		:: <span style='color:lightcoral'> &lt/form&gt </span>
+		break
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+
+		:: <span style='color:lightcoral'> &lt/body&gt </span>
+		break
+		:: <span style='color:lightcoral'> &lt/html&gt </span>
+	/block
+	hh : In Tiger (7 Lines)
+	block : class[code]
+		:: <span style='color:lightseagreen'> import </span>
+		:: <span style='color:lightblue'> css &#58 </span>
+		:: style.css
+		break
+		:: <span style='color:lightgreen'> title &#58 </span>
+		:: Page Title
+		break
+		:: <span style='color:lightgreen'> form &#58 </span>
+		:: <span style='color:orange'> id[sampleForm] </span>
+		break
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+
+		:: <span style='color:lightgreen'> input &#58 </span>
+		:: <span style='color:orange'> type[text] name[input_1] placeholder[First Input] </span>
+		break
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+
+		:: <span style='color:lightgreen'> input &#58 </span>
+		:: <span style='color:orange'> type[text] name[input_2] placeholder[Second Input] </span>
+		break
+		:: <span class'tab' style='color:rgba(255, 255, 255, 0);'>WW</span>
+
+		:: <span style='color:lightgreen'> input &#58 </span>
+		:: <span style='color:orange'> type[text] name[input_3] placeholder[Third Input] </span>
+		break
+		:: <span style='color:lightgreen'> /form </span>
+		break
 	/block
 /block

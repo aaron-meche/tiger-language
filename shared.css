@@ -30,3 +30,17 @@ h1{
     font-weight: 300;
     font-size: 14pt;
 }
+
+.code{
+    background-color: black;
+    padding: 15pt;
+    border-radius: 7pt;
+    font-size: 13pt;
+    font-weight: 600;
+    font-family:monospace;
+}
+
+h2{
+    padding-top: 10pt;
+    text-align: center;
+}
