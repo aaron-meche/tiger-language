@@ -46,6 +46,24 @@ function compile(code) {
             $fSlash$link: {
                 format: '</a> ',
             },
+            h1: {
+                format: '<h1>',
+            },
+            $fSlash$h1: {
+                format: '</h1> ',
+            },
+            h2: {
+                format: '<h2>',
+            },
+            $fSlash$h2: {
+                format: '</h2> ',
+            },
+            h3: {
+                format: '<h3>',
+            },
+            $fSlash$h3: {
+                format: '</h3> ',
+            },
             break: {
                 format: '<br>',
             },

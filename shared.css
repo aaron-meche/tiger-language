@@ -1,0 +1,12 @@
+body{
+    background-color: rgb(22, 22, 22);
+}
+
+.main-navbar{
+    background-color: var(--burntOrange);
+}
+
+.page{
+    width: 75vw;
+    margin: auto;
+}
