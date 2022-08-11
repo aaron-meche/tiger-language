@@ -11,7 +11,7 @@ function compile(code) {
         canvas = splitCode[i].split(' : ');
         // console.log(canvas);
 
-        command = canvas[0].replace(/</g, '$startVector$').replace(/>/g, '$endVector$').replace(/\//g, '$fSlash$').replace(/:/g, '$colon$').replace(/-/g, '');
+        command = canvas[0].replace(/:/g, '$colon$');
 
         // Check if just normal test
         if (command.includes('$colon$$colon$')) {
@@ -20,7 +20,7 @@ function compile(code) {
         } 
         // If not, remove spaces
         else {
-            command = command.replace(/\s/g, '');
+            command = command.replace(/\s/g, '').replace(/</g, '$startVector$').replace(/>/g, '$endVector$').replace(/\//g, '$fSlash$').replace(/-/g, '');
         }
 
         entry = canvas[1];

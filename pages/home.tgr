@@ -8,6 +8,8 @@ import css : mobile.css : media[screen and (hover: hover) and (pointer: fine) an
 import css : mobile.css : media[screen and (hover: none) and (pointer: coarse)]
 import meta : name[viewport] content[initial-scale = 1, user-scalable = no]
 
+title : Tiger Programming Language
+
 nav-block : class[navbar main-navbar]
 	block : class[left-navbar side-navbar]
 		image : images/logo.png : class[navbar-logo] onclick[open_page('home')]
@@ -18,10 +20,10 @@ nav-block : class[navbar main-navbar]
 				:: Home
 			/item
 			item : onclick[open_page('tv')] class[navbar-link-item]
-				:: TV Shows
+				:: Documentation
 			/item
 			item : onclick[open_page('movies')] class[navbar-link-item]
-				:: Movies
+				:: Downloads
 			/item
 		/block
 	/block
@@ -37,5 +39,7 @@ nav-block : class[navbar main-navbar]
 
 block : class[page]
 	h : Tiger Language
-	p : The Tiger Programming Language is a 
+	block : class[paragraph]
+		:: The Tiger Programming Language <strong>(.tgr)</strong> is a coding language designed for simplicity, cleanliness, and speed. The syntax of Tiger as opposed to HTML code is more consice, simple, lightweight, and clean. For example, let's create a simple page with a forn and 3 text input fields. 
+	/block
 /block
