@@ -55,6 +55,12 @@ function compile(code) {
             hhh: {
                 format: '<h3>' + entry + '</h3>',
             },
+            p: {
+                format: '<p>',
+            },
+            $fSlash$p: {
+                format: '</p>',
+            },
             $fSlash$h3: {
                 format: '</h3> ',
             },
