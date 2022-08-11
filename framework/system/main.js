@@ -1,22 +1,29 @@
 var loadKey;
 
 window.addEventListener('load', function () {
-    // var urlParams = new URLSearchParams(document.location.search);
-    // loadPage = urlParams.get('p');
-    loadPage = sessionStorage['activePage'];
-    if (loadPage == undefined) {
-        sessionStorage['activePage'] = 'home';
-        readTextFile('home');
+    let urlParams = new URLSearchParams(document.location.search);
+    let urlPageRequest = urlParams.get('p');
+    let loadPage = sessionStorage['activePage']
+
+    if (urlPageRequest == undefined) {
+        if (loadPage == undefined) {
+            sessionStorage['activePage'] = 'home';
+            readTextFile('home');
+        } else {
+            readTextFile(loadPage);
+        }
     } else {
-        readTextFile(loadPage);
+        readTextFile(urlPageRequest);
     }
+
+    loadPage = sessionStorage['activePage'];
 })
 
 function readTextFile(fileName) {
     loadedFile = fileName;
-    var rawFile = new XMLHttpRequest();
+    let rawFile = new XMLHttpRequest();
     // Here you can change the path to your .by files
-    rawFile.open("GET", "pages/" + fileName + ".by", true);
+    rawFile.open("GET", "pages/" + fileName + ".tgr", true);
     rawFile.onreadystatechange = function() {
         if (rawFile.readyState === 4) {
             buildPage(rawFile.responseText);

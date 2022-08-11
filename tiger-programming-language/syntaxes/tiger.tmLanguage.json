@@ -51,7 +51,7 @@
 			},
 			{
 				"name": "string.quoted",
-				"begin": "\\: : ",
+				"begin": "\\::",
 				"end": "\\\n",
 				"patterns": [
 					{
@@ -74,8 +74,8 @@
 		},
 		"strings": {
 			"name": "string",
-			"begin": "\\/",
-			"end": "\\/",
+			"begin": "\\;",
+			"end": "\\;",
 			"patterns": [
 				{
 					"name": "constant.character",
@@ -84,5 +84,5 @@
 			]
 		}
 	},
-	"scopeName": "source.tga"
+	"scopeName": "source.tgr"
 }

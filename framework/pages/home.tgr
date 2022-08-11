@@ -1,0 +1,17 @@
+import css : style/main.css
+
+nav-block : class[navbar]
+
+	block : class[item active]
+	:: Item
+	/block
+
+	block : class[item]
+	:: Item
+	/block
+
+	block : class[item]
+	:: Item
+	/block
+
+/block

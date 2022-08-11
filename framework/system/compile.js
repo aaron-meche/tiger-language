@@ -5,22 +5,32 @@ function compile(code) {
     var entry_2;
 
     var content = '';
-    // Here is where you choose what symbol/character/object splits each line of code (default: [\n])
     var splitCode = code.split(/\n/);
+
     for (i = 0; i < splitCode.length; i++) {
-        // Here is where you choose what splits lines of code into different pieces (default: [:: ])
-        canvas = splitCode[i].split(':: ');
+        canvas = splitCode[i].split(' : ');
         // console.log(canvas);
 
-        command = canvas[0].replace(/\s/g, '').replace(/</g, '$startVector$').replace(/>/g, '$endVector$').replace(/\//g, '$fSlash$').replace(/-/g, '');
+        command = canvas[0].replace(/</g, '$startVector$').replace(/>/g, '$endVector$').replace(/\//g, '$fSlash$').replace(/:/g, '$colon$').replace(/-/g, '');
+
+        // Check if just normal test
+        if (command.includes('$colon$$colon$')) {
+            let commend_without_slash = command.replace('$colon$$colon$','');
+            content = content + commend_without_slash;
+        } 
+        // If not, remove spaces
+        else {
+            command = command.replace(/\s/g, '');
+        }
+
         entry = canvas[1];
         entry_2 = canvas[2];
 
         const objects = {
+            // Standard HTML Items
             title: {
                 format: '<title' + convertToAttribute(entry_2) + '>' + entry + '</title>',
             },
-            // Standard HTML Items
             $fSlash$: {
                 format: entry,
             },
@@ -31,7 +41,13 @@ function compile(code) {
                 format: '<img src="' + entry + '" ' + convertToAttribute(entry_2) + '>',
             },
             link: {
-                format: '<a href="' + entry + '" ' + convertToAttribute(entry_2) + '>',
+                format: ' <a href="' + entry + '" ' + convertToAttribute(entry_2) + '>',
+            },
+            $fSlash$link: {
+                format: '</a> ',
+            },
+            break: {
+                format: '<br>',
             },
             // Imports
             importcss: {
@@ -54,17 +70,26 @@ function compile(code) {
                 format: '<meta name="apple-mobile-web-app-title" content="' + entry + '">',
             },
             // Div (block item)
-            $startVector$b: {
+            block: {
                 format: '<div ' + convertToAttribute(entry) + '>',
             },
-            b$endVector$: {
+            textblock: {
+                format: '<div ' + convertToAttribute(entry) + '>',
+            },
+            navblock: {
+                format: '<div ' + convertToAttribute(entry) + '>',
+            },
+            block: {
+                format: '<div ' + convertToAttribute(entry) + '>',
+            },
+            $fSlash$block: {
                 format: '</div>',
             },
             // Span (link item)
-            $startVector$l: {
+            item: {
                 format: '<span ' + convertToAttribute(entry) + '>',
             },
-            l$endVector$: {
+            $fSlash$item: {
                 format: '</span>',
             },
             // Meta Tag
@@ -75,21 +100,32 @@ function compile(code) {
             initscript: {
                 format: '<script>' 
             },
+            conclscript: {
+                format: '</script>' 
+            },
             // Declarations
             declarevar: {
                 format: '<div id="' + entry + '" style="display:none">' + entry_2 + '</div>'
             },
         }
 
+        // Ignore blank lines
         if (command == '') {
             void(0);
-        } else if (command == '##'){
+        } 
+        // Ignore comments
+        else if (command == '##'){
             void (0);
-        } else if (objects[command] !== undefined) {
+        } 
+        // If command exists
+        else if (objects[command] !== undefined) {
             let format = objects[command]['format'];
             content = content + format;
-        } else {
-            console.log('Syntax Error: "' + canvas + '"');
+        } 
+        else {
+            if (!command.includes('$colon$$colon$')) {
+                console.warn('Syntax Error: "' + canvas + '"');
+            }
         }
     }
     return content;

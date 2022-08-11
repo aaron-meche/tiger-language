@@ -18,8 +18,16 @@
         ["(", ")"],
         ["\"", "\""],
         ["'", "'"],
-        ["<b", "b>"],
-        ["<l", "l>"],
+        ["block ", "/block"],
+        // ["block", " : class[]\n\t\n/block"],
+        // ["  block", " : class[]\n\t\n/block"],
+        // ["      block", " : class[]\n\t\t\n/block"],
+        // ["          block", " : class[]\n\t\t\t\n/block"],
+        // ["              block", " : class[]\n\t\t\t\t\n/block"],
+        // ["                  block", " : class[]\n\t\t\t\t\t\n/block"],
+        ["nav-block", " : class[navbar]\n\n\tblock : class[item]\n\t:: Item\n\t/block\n\n\tblock : class[item]\n\t:: Item\n\t/block\n\n\tblock : class[item]\n\t:: Item\n\t/block\n\n/block"],
+        ["item", "/item"],
+        ["link", "/link"],
     ],
     // symbols that can be used to surround a selection
     "surroundingPairs": [
