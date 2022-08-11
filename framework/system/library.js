@@ -1,4 +1,4 @@
-function page_link(page) {
+function page_open(page) {
     // window.open('index.html?p=' + page, '_self');
     sessionStorage['activePage'] = page;
     readTextFile(page);
