@@ -36,5 +36,5 @@ nav-block : class[navbar main-navbar]
 /block
 
 block : class[page]
-	:: Tiger
+	
 /block

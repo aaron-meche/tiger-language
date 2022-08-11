@@ -46,13 +46,13 @@ function compile(code) {
             $fSlash$link: {
                 format: '</a> ',
             },
-            h1: {
+            h: {
                 format: '<h1>' + entry + '</h1>',
             },
-            h2: {
+            hh: {
                 format: '<h2>' + entry + '</h2>',
             },
-            h3: {
+            hhh: {
                 format: '<h3>' + entry + '</h3>',
             },
             $fSlash$h3: {
