@@ -19,6 +19,9 @@ nav-block : class[navbar main-navbar]
 			item : onclick[open_page('home')] class[navbar-link-item active-navbar-link-item]
 				:: Home
 			/item
+			item : onclick[open_page('home')] class[navbar-link-item active-navbar-link-item]
+				:: Home
+			/item
 			item : onclick[open_page('documentation')] class[navbar-link-item]
 				:: Documentation
 			/item

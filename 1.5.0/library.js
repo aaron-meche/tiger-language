@@ -4,7 +4,7 @@ function open_page(page) {
     readTextFile(page);
 }
 
-function ext_link(page) {
+function open_url(page) {
     window.open(page, '_self')
 }
 
