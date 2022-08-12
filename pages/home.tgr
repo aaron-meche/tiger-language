@@ -28,9 +28,6 @@ nav-block : class[navbar main-navbar]
 			item : onclick[open_url('https://github.com/aaron-meche/tiger-framework/wiki')] class[navbar-link-item] onmousemove[cursorInfo(event,'Opens Github Wiki')] onmouseout[dissolveCursorInfo()]
 				:: Wiki
 			/item
-			item : onclick[open_url('https://github.com/aaron-meche/tiger-framework/wiki')] class[navbar-link-item] onmousemove[cursorInfo(event,'Opens Github Repository (Javascript Compiler)')] onmouseout[dissolveCursorInfo()]
-				:: Engine
-			/item
 		/block
 	/block
 	block : class[right-navbar side-navbar]
