@@ -36,4 +36,3 @@ nav-block : class[navbar main-navbar]
 	## : 	image : images/app menu.png : class[navbar-link-item] onclick[open_page('apps')]
 	/block
 /block
-
