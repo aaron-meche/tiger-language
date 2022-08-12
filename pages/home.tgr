@@ -1,10 +1,10 @@
 import css : https://baileo.us/style/shared.css
-import css : https://baileo.us/style/desktop.css : media[screen and (hover: hover) and (pointer: fine) and (min-width: 800px)]
-import css : https://baileo.us/style/mobile.css : media[screen and (hover: hover) and (pointer: fine) and (max-width: 800px)]
+import css : https://baileo.us/style/desktop.css : media[screen and (hover: hover) and (pointer: fine) and (min-width: 900px)]
+import css : https://baileo.us/style/mobile.css : media[screen and (hover: hover) and (pointer: fine) and (max-width: 900px)]
 import css : https://baileo.us/style/mobile.css : media[screen and (hover: none) and (pointer: coarse)]
 import css : shared.css
-import css : desktop.css : media[screen and (hover: hover) and (pointer: fine) and (min-width: 800px)]
-import css : mobile.css : media[screen and (hover: hover) and (pointer: fine) and (max-width: 800px)]
+import css : desktop.css : media[screen and (hover: hover) and (pointer: fine) and (min-width: 900px)]
+import css : mobile.css : media[screen and (hover: hover) and (pointer: fine) and (max-width: 900px)]
 import css : mobile.css : media[screen and (hover: none) and (pointer: coarse)]
 import meta : name[viewport] content[initial-scale = 1, user-scalable = no]
 
@@ -17,16 +17,19 @@ nav-block : class[navbar main-navbar]
 	block : id[mobileNavbarDropMenu] onclick[mobileNavMenu()]
 		block
 			item : onclick[open_page('home')] class[navbar-link-item active-navbar-link-item]
-				:: Home
+				:: Introduction
 			/item
-			item : onclick[open_page('home')] class[navbar-link-item active-navbar-link-item]
-				:: Home
-			/item
-			item : onclick[open_page('documentation')] class[navbar-link-item]
+			item : onclick[open_url('https://github.com/aaron-meche/tiger-framework/blob/main/README.txt')] class[navbar-link-item] onmousemove[cursorInfo(event,'Opens Github (README.txt)')] onmouseout[dissolveCursorInfo()]
 				:: Documentation
 			/item
-			item : onclick[open_page('downloads')] class[navbar-link-item]
-				:: Downloads
+			item : onclick[open_url('https://github.com/aaron-meche/tiger-framework')] class[navbar-link-item] onmousemove[cursorInfo(event,'Opens Github Repository')] onmouseout[dissolveCursorInfo()]
+				:: Framework
+			/item
+			item : onclick[open_url('https://github.com/aaron-meche/tiger-framework/wiki')] class[navbar-link-item] onmousemove[cursorInfo(event,'Opens Github Wiki')] onmouseout[dissolveCursorInfo()]
+				:: Wiki
+			/item
+			item : onclick[open_url('https://github.com/aaron-meche/tiger-framework/wiki')] class[navbar-link-item] onmousemove[cursorInfo(event,'Opens Github Repository (Javascript Compiler)')] onmouseout[dissolveCursorInfo()]
+				:: Engine
 			/item
 		/block
 	/block
@@ -43,7 +46,7 @@ nav-block : class[navbar main-navbar]
 block : class[page]
 	h : Tiger Language
 	block : class[paragraph]
-		:: The Tiger Programming Language (.tgr) is a coding language designed for simplicity, cleanliness, and speed. The syntax of Tiger as opposed to HTML is more consice, simple, lightweight, and clean. To demonstrate, let's create a simple page with a form and 3 text input fields. 
+		:: The Tiger Programming Language (.tgr) is a coding language designed for developing fast, clean, and concise web applications. The syntax of Tiger as opposed to HTML is more consice, simple, lightweight, and clean. To demonstrate, let's create a simple page with a form and 3 text input fields. 
 	/block
 	hh : In HTML (13 Lines)
 	block : class[code]
@@ -137,4 +140,7 @@ block : class[page]
 		:: <span style='color:lightgreen'> /form </span>
 		break
 	/block
+/block
+
+block : id[cursorInfo]
 /block
