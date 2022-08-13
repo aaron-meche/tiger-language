@@ -25,8 +25,6 @@ function cursorInfo(event, message) {
     dom('cursorInfo').style.opacity = '1';
     dom('cursorInfo').style.left = x + 10;
     dom('cursorInfo').style.top = y + 10;
-    console.log(x);
-    console.log(y);
 }
 
 function dissolveCursorInfo() {

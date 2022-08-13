@@ -19,18 +19,18 @@ window.addEventListener('load', function () {
     } else {
         readTextFile(urlPageRequest);
     }
-
+    
     loadPage = sessionStorage['activePage'];
 })
 
 function readTextFile(fileName) {
     loadedFile = fileName;
     let rawFile = new XMLHttpRequest();
-    // Here you can change the path to your .by files
     rawFile.open("GET", "pages/" + fileName + ".tgr", true);
     rawFile.onreadystatechange = function() {
+        console.log(rawFile.responseText);
         if (rawFile.readyState === 4) {
-            if ((rawFile.responseText.includes('html') && (rawFile.responseText.includes('body')))) {
+            if (rawFile.responseText.includes('<meta name="html_page_identifier">')) {
                 alert('That page does not exist');
             } else {
                 buildPage(rawFile.responseText);
