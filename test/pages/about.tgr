@@ -1,0 +1,17 @@
+import css : style/main.css
+
+nav-block : class[navbar]
+
+	block : class[item] onclick[open_page('home')]
+	:: Home
+	/block
+
+	block : class[item active] onclick[open_page('about')]
+	:: About
+	/block
+
+	block : class[item]
+	:: Other
+	/block
+
+/block
