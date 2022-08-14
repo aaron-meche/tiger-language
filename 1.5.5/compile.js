@@ -123,6 +123,9 @@ function compile(code) {
             break: {
                 format: '<br>',
             },
+            input: {
+                format: '<input ' + convertToAttribute(entry) + '>',
+            },
             // Imports
             importcss: {
                 format: '<link rel="stylesheet" href="' + entry + '" ' + convertToAttribute(entry_2) + '>',
