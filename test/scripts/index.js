@@ -1,3 +1,3 @@
 function bodyOnLoadFunctions() {
-    say('From Index.JS');
+    // say('From Index.JS');
 }

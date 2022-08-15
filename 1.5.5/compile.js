@@ -5,6 +5,10 @@
 var loadKey;
 
 window.addEventListener('load', function () {
+    pageOnloadTiger();
+})
+
+function pageOnloadTiger() {
     let urlParams = new URLSearchParams(document.location.search);
     let urlPageRequest = urlParams.get('p');
     let loadPage = sessionStorage['activePage']
@@ -21,14 +25,14 @@ window.addEventListener('load', function () {
     }
     
     loadPage = sessionStorage['activePage'];
-})
+}
 
 function readTextFile(fileName) {
     loadedFile = fileName;
     let rawFile = new XMLHttpRequest();
     rawFile.open("GET", "pages/" + fileName + ".tgr", true);
     rawFile.onreadystatechange = function() {
-        console.log(rawFile.responseText);
+        // console.log(rawFile.responseText);
         if (rawFile.readyState === 4) {
             if (rawFile.responseText.includes('<pre>Cannot GET')) {
                 alert('That page does not exist');
@@ -62,6 +66,8 @@ function compile(code) {
 
     var content = '';
     var splitCode = code.split(/\n/);
+
+    console.time('Compiler Time');
 
     for (i = 0; i < splitCode.length; i++) {
         canvas = splitCode[i].split(' : ');
@@ -186,6 +192,7 @@ function compile(code) {
             },
         }
 
+        
         // Ignore blank lines
         if (command == '') {
             void(0);
@@ -193,6 +200,10 @@ function compile(code) {
         // Ignore comments
         else if (command == '##'){
             void (0);
+        } 
+        // If Preload Page Declared
+        else if (command == 'preloadpage'){
+            console.log('Preload Page Requested...');
         } 
         // If command exists
         else if (objects[command] !== undefined) {
@@ -205,6 +216,7 @@ function compile(code) {
             }
         }
     }
+    console.timeEnd('Compiler Time')
     return content;
 }
 
@@ -246,4 +258,10 @@ function getVar(id) {
 
 function dom(id) {
     return document.getElementById(id)
+}
+
+function testCompileSpeed(repeat) {
+    for (let i = 0; i < repeat; i++) {
+        pageOnloadTiger();
+    }
 }
