@@ -103,13 +103,13 @@ function compile(code) {
                 format: '</a> ',
             },
             h: {
-                format: '<h1>' + entry + '</h1>',
+                format: '<h1 ' + convertToAttribute(entry_2) + '>' + entry + '</h1>',
             },
             hh: {
-                format: '<h2>' + entry + '</h2>',
+                format: '<h2 ' + convertToAttribute(entry_2) + '>' + entry + '</h2>',
             },
             hhh: {
-                format: '<h3>' + entry + '</h3>',
+                format: '<h3 ' + convertToAttribute(entry_2) + '>' + entry + '</h3>',
             },
             p: {
                 format: '<p>',
