@@ -3,8 +3,8 @@
     background-color: rgb(0, 0, 0);
     padding: 5pt;
     border: solid 1pt white;
-    position: absolute;
-    z-index: 100;
+    position: fixed;
+    z-index: 1000;
     border-radius: 5pt;
-    transition: opacity 200ms
+    transition: opacity 200ms;
 }

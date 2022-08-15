@@ -19,8 +19,8 @@ function dom(id) {
 }
 
 function cursorInfo(event, message) {
-    var x = event.pageX;
-    var y = event.pageY;
+    var x = event.clientX;
+    var y = event.clientY;
     dom('cursorInfo').innerHTML = message;
     dom('cursorInfo').style.opacity = '1';
     dom('cursorInfo').style.left = x + 10;

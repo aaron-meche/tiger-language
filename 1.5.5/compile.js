@@ -28,7 +28,7 @@ function readTextFile(fileName) {
     let rawFile = new XMLHttpRequest();
     rawFile.open("GET", "pages/" + fileName + ".tgr", true);
     rawFile.onreadystatechange = function() {
-        // console.log(rawFile.responseText);
+        console.log(rawFile.responseText);
         if (rawFile.readyState === 4) {
             if (rawFile.responseText.includes('<meta name="html_page_identifier">')) {
                 alert('That page does not exist');

@@ -10,35 +10,40 @@ import meta : name[viewport] content[initial-scale = 1, user-scalable = no]
 
 title : Tiger Programming Language
 
-nav-block : class[navbar main-navbar]
-	block : class[left-navbar side-navbar]
-		image : images/logo.png : class[navbar-logo] onclick[open_page('home')]
+nav-block : class[left-navbar]
+
+	block : class[logo-display]
+		image : https://baileo.us/images/logo unfilled.png
+		item : class[logo-text]
+			:: baileo
+		/item
 	/block
-	block : id[mobileNavbarDropMenu] onclick[mobileNavMenu()]
-		block
-			item : onclick[open_page('home')] class[navbar-link-item active-navbar-link-item]
-				:: Introduction
-			/item
-			item : onclick[open_url('https://github.com/aaron-meche/tiger-framework/blob/main/README.txt')] class[navbar-link-item] onmousemove[cursorInfo(event,'Opens Github (README.txt)')] onmouseout[dissolveCursorInfo()]
-				:: Documentation
-			/item
-			item : onclick[open_url('https://github.com/aaron-meche/tiger-framework')] class[navbar-link-item] onmousemove[cursorInfo(event,'Opens Github Repository')] onmouseout[dissolveCursorInfo()]
-				:: Framework
-			/item
-			item : onclick[open_url('https://github.com/aaron-meche/tiger-framework/wiki')] class[navbar-link-item] onmousemove[cursorInfo(event,'Opens Github Wiki')] onmouseout[dissolveCursorInfo()]
-				:: Wiki
-			/item
-		/block
+
+	block : class[item active] onclick[window.location.reload()]
+		:: Introduction
 	/block
-	block : class[right-navbar side-navbar]
-		block : class[mobile-navbar]
-			image : https://baileo.us/images/menu.png : class[navbar-link-item] onclick[mobileNavMenu()] id[expandMobileNavMenu]
-			image : https://baileo.us/images/close.png : class[navbar-link-item] onclick[mobileNavMenu()] id[closeMobileNavMenu] style[display:none;]
-		/block
-	## : 	image : images/search.png : class[navbar-link-item] onclick[open_page('search')]
-	## : 	image : images/app menu.png : class[navbar-link-item] onclick[open_page('apps')]
+
+	block : class[item] onclick[open_url('https://github.com/aaron-meche/tiger-framework/blob/main/README.txt')] onmousemove[cursorInfo(event,'Opens Github (README.txt)')] onmouseout[dissolveCursorInfo()]
+		:: Documentation
 	/block
+
+	block : class[item] onclick[open_url('https://github.com/aaron-meche/tiger-framework')] onmousemove[cursorInfo(event,'Opens Github Repository')] onmouseout[dissolveCursorInfo()]
+		:: Framework
+	/block
+
+	block : class[item] onclick[open_url('https://github.com/aaron-meche/tiger-framework/wiki')] onmousemove[cursorInfo(event,'Opens Github Wiki')] onmouseout[dissolveCursorInfo()]
+		:: Wiki
+	/block
+
 /block
+
+nav-block : class[top-navbar]
+
+	image : https://baileo.us/images/menu.png : class[toggle-left-navbar-button] onclick[toggleLeftNavbar()]
+
+/block
+
+block : class[content]
 
 block : class[page]
 	h : Tiger Language
@@ -137,6 +142,8 @@ block : class[page]
 		:: <span style='color:lightgreen'> /form </span>
 		break
 	/block
+/block
+
 /block
 
 block : id[cursorInfo]
