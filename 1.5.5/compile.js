@@ -30,7 +30,7 @@ function readTextFile(fileName) {
     rawFile.onreadystatechange = function() {
         console.log(rawFile.responseText);
         if (rawFile.readyState === 4) {
-            if (rawFile.responseText.includes('<meta name="html_page_identifier">')) {
+            if (rawFile.responseText.includes('<pre>Cannot GET')) {
                 alert('That page does not exist');
             } else {
                 buildPage(rawFile.responseText);
