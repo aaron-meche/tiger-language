@@ -50,6 +50,7 @@ function buildPage(code) {
 
     document.getElementById('bodyDOM').style.display = 'block';
     bodyOnLoadFunctions();
+    preloadPages();
 }
 
 
@@ -201,10 +202,10 @@ function compile(code) {
         else if (command == '##'){
             void (0);
         } 
-        // If Preload Page Declared
-        else if (command == 'preloadpage'){
-            console.log('Preload Page Requested...');
-        } 
+        // // If Preload Page Declared
+        // else if (command == 'preloadpage'){
+        //     addPreloadToCalendar(entry);
+        // } 
         // If command exists
         else if (objects[command] !== undefined) {
             let format = objects[command]['format'];
@@ -232,6 +233,23 @@ function unspace(string) {
     let newstring = string.replace(/\s/g, '')
     return newstring;
 }
+
+// let preloadCalendar = [];
+// let isPreloadCalendar = false;
+// function addPreloadToCalendar(page) {
+//     console.log(page + ' added to Preload Calendar')
+//     preloadCalendar.push(page);
+//     isPreloadCalendar = true;
+// }
+
+// function preloadPages() {
+//     if (isPreloadCalendar) {
+//         console.log('Preloading Pages...');
+//         for (let i = 0; i < preloadCalendar.length; i++) {
+//             sessionStorage['preload_content ' + preloadCalendar[i]] = readTextFile(preloadCalendar[i]);
+//         }
+//     }
+// }
 
 
 
