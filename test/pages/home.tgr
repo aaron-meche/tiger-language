@@ -15,6 +15,3 @@ nav-block : class[navbar]
 	/block
 
 /block
-
-preload page : page_2
-preload page : page_3
