@@ -127,6 +127,12 @@ function compile(code) {
             break: {
                 format: '<br>',
             },
+            form: {
+                format: '<form ' + convertToAttribute(entry) + '>',
+            },
+            $fSlash$form: {
+                format: '</form>',
+            },
             input: {
                 format: '<input ' + convertToAttribute(entry) + '>',
             },
