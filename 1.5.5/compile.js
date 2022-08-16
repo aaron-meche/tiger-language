@@ -144,6 +144,9 @@ function compile(code) {
             source: {
                 format: '<source src"' + convertToAttribute(entry) + '" + ' + convertToAttribute(entry_2) + '>',
             },
+            portal: {
+                format: '<iframme src"' + convertToAttribute(entry) + '" + ' + convertToAttribute(entry_2) + '></iframe>',
+            },
             // Imports
             importcss: {
                 format: '<link rel="stylesheet" href="' + entry + '" ' + convertToAttribute(entry_2) + '>',
