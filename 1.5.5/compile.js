@@ -132,6 +132,18 @@ function compile(code) {
             input: {
                 format: '<input ' + convertToAttribute(entry) + '>',
             },
+            video: {
+                format: '<video ' + convertToAttribute(entry_2) + '><source src"' + convertToAttribute(entry) + '"></video>',
+            },
+            videoskin: {
+                format: '<video ' + convertToAttribute(entry) + '>',
+            },
+            $fSlash$videoskin: {
+                format: '/<video ' + convertToAttribute(entry) + '>',
+            },
+            source: {
+                format: '<source src"' + convertToAttribute(entry) + '" + ' + convertToAttribute(entry_2) + '>',
+            },
             // Imports
             importcss: {
                 format: '<link rel="stylesheet" href="' + entry + '" ' + convertToAttribute(entry_2) + '>',
