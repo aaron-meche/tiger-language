@@ -22,6 +22,8 @@ function pageOnloadTiger() {
         }
     } else {
         readTextFile(urlPageRequest);
+        sessionStorage['activePage'] = urlPageRequest;
+        open_url('index.html');
     }
     
     loadPage = sessionStorage['activePage'];
@@ -91,9 +93,6 @@ function compile(code) {
             title: {
                 format: '<title' + convertToAttribute(entry_2) + '>' + entry + '</title>',
             },
-            $fSlash$: {
-                format: entry,
-            },
             button: {
                 format: '<button ' + convertToAttribute(entry_2) + '>' + entry + '</button>',
             },
@@ -120,9 +119,6 @@ function compile(code) {
             },
             $fSlash$p: {
                 format: '</p>',
-            },
-            $fSlash$h3: {
-                format: '</h3> ',
             },
             break: {
                 format: '<br>',
