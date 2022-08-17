@@ -49,7 +49,7 @@ function readTextFile(fileName) {
 function buildPage(code) {
     let convertedCode = compile(code)
     document.body.innerHTML = convertedCode;
-    console.log(convertedCode);
+    // console.log(convertedCode);
     document.body.style.display = 'block';
     bodyOnLoadFunctions();
 }
