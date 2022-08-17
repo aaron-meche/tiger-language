@@ -47,7 +47,9 @@ function readTextFile(fileName) {
 }
 
 function buildPage(code) {
-    document.body.innerHTML = compile(code);
+    let convertedCode = compile(code)
+    document.body.innerHTML = convertedCode;
+    console.log(convertedCode);
     document.body.style.display = 'block';
     bodyOnLoadFunctions();
 }
