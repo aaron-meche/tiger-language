@@ -1,0 +1,4 @@
+dec version = '0.0.1'
+
+func Hello()
+    elem.id[versionDisplay].content = version
