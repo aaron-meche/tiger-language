@@ -13,9 +13,9 @@ title : Tiger Programming Language
 nav-block : class[left-navbar]
 
 	block : class[logo-display]
-		image : https://baileo.us/images/logo unfilled.png
+		image : images/logo.png
 		item : class[logo-text]
-			:: baileo
+			:: Tiger
 		/item
 	/block
 
@@ -144,7 +144,17 @@ block : class[page]
 	/block
 /block
 
+block : class[bottom-padding]
 /block
 
-block : id[cursorInfo]
 /block
+
+block : id[cursorInfo] style[opacity: 0;]
+/block
+
+
+
+
+
+
+block : class[control-panel]/block

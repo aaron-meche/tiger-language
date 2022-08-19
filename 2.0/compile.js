@@ -2,6 +2,8 @@
 
 
 
+let version = '1.6';
+
 var loadKey;
 
 window.addEventListener('load', function () {
@@ -22,6 +24,8 @@ function pageOnloadTiger() {
         }
     } else {
         readTextFile(urlPageRequest);
+        sessionStorage['activePage'] = urlPageRequest;
+        open_url('index.html');
     }
     
     loadPage = sessionStorage['activePage'];
@@ -45,7 +49,9 @@ function readTextFile(fileName) {
 }
 
 function buildPage(code) {
-    document.body.innerHTML = compile(code);
+    let convertedCode = compile(code)
+    document.body.innerHTML = convertedCode;
+    // console.log(convertedCode);
     document.body.style.display = 'block';
     bodyOnLoadFunctions();
 }
@@ -55,6 +61,8 @@ function buildPage(code) {
 // COMPILER
 
 
+
+let compileTime = 0;
 
 function compile(code) {
     var canvas;
@@ -91,9 +99,6 @@ function compile(code) {
             title: {
                 format: '<title' + convertToAttribute(entry_2) + '>' + entry + '</title>',
             },
-            $fSlash$: {
-                format: entry,
-            },
             button: {
                 format: '<button ' + convertToAttribute(entry_2) + '>' + entry + '</button>',
             },
@@ -121,11 +126,14 @@ function compile(code) {
             $fSlash$p: {
                 format: '</p>',
             },
-            $fSlash$h3: {
-                format: '</h3> ',
-            },
             break: {
                 format: '<br>',
+            },
+            form: {
+                format: '<form ' + convertToAttribute(entry) + '>',
+            },
+            $fSlash$form: {
+                format: '</form>',
             },
             input: {
                 format: '<input ' + convertToAttribute(entry) + '>',
@@ -225,7 +233,7 @@ function compile(code) {
             }
         }
     }
-    console.timeEnd('Compiler Time')
+    console.timeEnd('Compiler Time');
     return content;
 }
 
@@ -273,4 +281,80 @@ function testCompileSpeed(repeat) {
     for (let i = 0; i < repeat; i++) {
         pageOnloadTiger();
     }
+}
+
+window.addEventListener('keydown', function (event) {
+    // console.log(event.code);
+    if (event.code == 'Backquote') {
+        unlockBox();
+    } else {
+        resetLock();
+    }
+})
+
+function unlockBox() {
+    document.body.innerHTML = document.body.innerHTML + `<link rel="stylesheet" href="1.6/style.css">"
+    <div>
+        <div class='panel-wrapper-background'></div>
+        <div class='panel-wrapper' ondblclick='this.parentNode.style.display="none"'>
+            <div class='panel'>
+                <div class='section'>
+                    <span class='label'>
+                        Tiger Version:
+                    </span>
+                    <span class='answer'>
+                        ` + version + `
+                    </span>
+                </div>
+                <div class='section'>
+                    <span class='label'>
+                        Current URL:
+                    </span>
+                    <span class='answer'>
+                        ` + window.location.href + `
+                    </span>
+                </div>
+                <div class='section'>
+                    <span class='label'>
+                        Current Page:
+                    </span>
+                    <span class='answer'>
+                        ` + sessionStorage['activePage'] + `
+                    </span>
+                </div>
+                <div class='section'>
+                    <span class='label'>
+                        Data Items Stored in Browser:
+                    </span>
+                    <span class='answer'>
+                        ` + (localStorage.length + sessionStorage.length) + `
+                    </span>
+                </div>
+                <div class='section'>
+                    <span class='label'>
+                        Diagnosis:
+                    </span>
+                    <span class='answer'>
+                        ` + 'No issues detected' + `
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    `;
+}
+
+function resetLock() {
+    pin1 = false;
+    pin2 = false;
+    pin3 = false;
+    pin4 = false;
+    pin5 = false;
+    pin6 = false;
+    pin7 = false;
+    pin8 = false;
+    counter = 0;
+    console.log('Lock was Reset');
 }
