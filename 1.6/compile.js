@@ -145,7 +145,7 @@ function compile(code) {
                 format: '<video ' + convertToAttribute(entry) + '>',
             },
             $fSlash$videoskin: {
-                format: '/<video ' + convertToAttribute(entry) + '>',
+                format: '</video>',
             },
             source: {
                 format: '<source src="' + entry + '"' + ' ' + convertToAttribute(entry_2) + '>',
