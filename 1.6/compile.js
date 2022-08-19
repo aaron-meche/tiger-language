@@ -148,7 +148,7 @@ function compile(code) {
                 format: '/<video ' + convertToAttribute(entry) + '>',
             },
             source: {
-                format: '<source src"' + entry + '" + ' + convertToAttribute(entry_2) + '>',
+                format: '<source src="' + entry + '"' + ' ' + convertToAttribute(entry_2) + '>',
             },
             portal: {
                 format: '<iframe src="' + convertToAttribute(entry) + '" + ' + convertToAttribute(entry_2) + '></iframe>',
