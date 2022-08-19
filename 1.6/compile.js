@@ -139,7 +139,7 @@ function compile(code) {
                 format: '<input ' + convertToAttribute(entry) + '>',
             },
             video: {
-                format: '<video ' + convertToAttribute(entry_2) + '><source src"' + entry + '"></video>',
+                format: '<video ' + convertToAttribute(entry_2) + '><source src="' + entry + '"></video>',
             },
             videoskin: {
                 format: '<video ' + convertToAttribute(entry) + '>',
