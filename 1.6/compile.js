@@ -139,7 +139,7 @@ function compile(code) {
                 format: '<input ' + convertToAttribute(entry) + '>',
             },
             video: {
-                format: '<video ' + convertToAttribute(entry_2) + '><source src"' + convertToAttribute(entry) + '"></video>',
+                format: '<video ' + convertToAttribute(entry_2) + '><source src"' + entry + '"></video>',
             },
             videoskin: {
                 format: '<video ' + convertToAttribute(entry) + '>',
@@ -148,7 +148,7 @@ function compile(code) {
                 format: '/<video ' + convertToAttribute(entry) + '>',
             },
             source: {
-                format: '<source src"' + convertToAttribute(entry) + '" + ' + convertToAttribute(entry_2) + '>',
+                format: '<source src"' + entry + '" + ' + convertToAttribute(entry_2) + '>',
             },
             portal: {
                 format: '<iframe src="' + convertToAttribute(entry) + '" + ' + convertToAttribute(entry_2) + '></iframe>',
@@ -291,7 +291,7 @@ window.addEventListener('keydown', function (event) {
 })
 
 function unlockBox() {
-    document.body.innerHTML = document.body.innerHTML + `<link rel="stylesheet" href="1.6/style.css">"
+    document.body.innerHTML = document.body.innerHTML + `<link rel="stylesheet" href="https://tiger.baileo.us/1.6/style.css">"
     <div>
         <div class='panel-wrapper-background'></div>
         <div class='panel-wrapper' ondblclick='this.parentNode.style.display="none"'>

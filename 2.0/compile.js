@@ -287,8 +287,6 @@ window.addEventListener('keydown', function (event) {
     // console.log(event.code);
     if (event.code == 'Backquote') {
         unlockBox();
-    } else {
-        resetLock();
     }
 })
 
@@ -344,17 +342,4 @@ function unlockBox() {
     
     
     `;
-}
-
-function resetLock() {
-    pin1 = false;
-    pin2 = false;
-    pin3 = false;
-    pin4 = false;
-    pin5 = false;
-    pin6 = false;
-    pin7 = false;
-    pin8 = false;
-    counter = 0;
-    console.log('Lock was Reset');
 }
