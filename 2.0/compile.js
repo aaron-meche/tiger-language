@@ -2,7 +2,7 @@
 
 
 
-let version = '1.6';
+let version = '2.0';
 
 var loadKey;
 
@@ -37,6 +37,23 @@ function readTextFile(fileName) {
     rawFile.open("GET", "pages/" + fileName + ".tgr", true);
     rawFile.onreadystatechange = function() {
         // console.log(rawFile.responseText);
+        if (rawFile.readyState === 4) {
+            if (rawFile.responseText.includes('<pre>Cannot GET')) {
+                alert('That page does not exist');
+            } else {
+                buildPage(rawFile.responseText);
+                readConfig();
+            }
+        }
+    }
+    rawFile.send();
+}
+
+function readConfig() {
+    loadedFile = fileName;
+    let rawFile = new XMLHttpRequest();
+    rawFile.open("GET", "tiger.config", true);
+    rawFile.onreadystatechange = function() {
         if (rawFile.readyState === 4) {
             if (rawFile.responseText.includes('<pre>Cannot GET')) {
                 alert('That page does not exist');
@@ -139,16 +156,16 @@ function compile(code) {
                 format: '<input ' + convertToAttribute(entry) + '>',
             },
             video: {
-                format: '<video ' + convertToAttribute(entry_2) + '><source src"' + convertToAttribute(entry) + '"></video>',
+                format: '<video ' + convertToAttribute(entry_2) + '><source src="' + entry + '"></video>',
             },
             videoskin: {
                 format: '<video ' + convertToAttribute(entry) + '>',
             },
             $fSlash$videoskin: {
-                format: '/<video ' + convertToAttribute(entry) + '>',
+                format: '</video>',
             },
             source: {
-                format: '<source src"' + convertToAttribute(entry) + '" + ' + convertToAttribute(entry_2) + '>',
+                format: '<source src="' + entry + '"' + ' ' + convertToAttribute(entry_2) + '>',
             },
             portal: {
                 format: '<iframe src="' + convertToAttribute(entry) + '" + ' + convertToAttribute(entry_2) + '></iframe>',
@@ -173,27 +190,27 @@ function compile(code) {
             importapplewebapptitle: {
                 format: '<meta name="apple-mobile-web-app-title" content="' + entry + '">',
             },
-            // Div (block item)
-            block: {
+            // Div (div item)
+            div: {
                 format: '<div ' + convertToAttribute(entry) + '>',
             },
-            textblock: {
+            textdiv: {
                 format: '<div ' + convertToAttribute(entry) + '>',
             },
-            navblock: {
+            navdiv: {
                 format: '<div ' + convertToAttribute(entry) + '>',
             },
-            block: {
+            div: {
                 format: '<div ' + convertToAttribute(entry) + '>',
             },
-            $fSlash$block: {
+            $fSlash$div: {
                 format: '</div>',
             },
-            // Span (link item)
-            item: {
+            // Span (line item)
+            span: {
                 format: '<span ' + convertToAttribute(entry) + '>',
             },
-            $fSlash$item: {
+            $fSlash$span: {
                 format: '</span>',
             },
             // Meta Tag
@@ -291,7 +308,7 @@ window.addEventListener('keydown', function (event) {
 })
 
 function unlockBox() {
-    document.body.innerHTML = document.body.innerHTML + `<link rel="stylesheet" href="1.6/style.css">"
+    document.body.innerHTML = document.body.innerHTML + `<link rel="stylesheet" href="https://tiger.baileo.us/2.0/style.css">"
     <div>
         <div class='panel-wrapper-background'></div>
         <div class='panel-wrapper' ondblclick='this.parentNode.style.display="none"'>
@@ -326,14 +343,6 @@ function unlockBox() {
                     </span>
                     <span class='answer'>
                         ` + (localStorage.length + sessionStorage.length) + `
-                    </span>
-                </div>
-                <div class='section'>
-                    <span class='label'>
-                        Diagnosis:
-                    </span>
-                    <span class='answer'>
-                        ` + 'No issues detected' + `
                     </span>
                 </div>
             </div>

@@ -43,6 +43,11 @@
     text-align: center;
 }
 
+.panel-wrapper .panel .section:hover{
+    background-color: lightsalmon;
+    cursor: default;
+}
+
 .panel-wrapper .panel .section .label {
     font-weight: 600;
     margin-right: 5pt;

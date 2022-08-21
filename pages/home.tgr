@@ -23,15 +23,15 @@ nav-block : class[left-navbar]
 		:: Introduction
 	/block
 
-	block : class[item] onclick[open_url('https://github.com/aaron-meche/tiger-framework/blob/main/README.txt')] onmousemove[cursorInfo(event,'Opens Github (README.txt)')] onmouseout[dissolveCursorInfo()]
-		:: Documentation
-	/block
+	## : block : class[item] onclick[open_url('https://github.com/aaron-meche/tiger-framework/blob/main/README.txt')] onmousemove[cursorInfo(event,'Opens Github (README.txt)')] onmouseout[dissolveCursorInfo()]
+	## : 	:: Documentation
+	## : /block
 
 	block : class[item] onclick[open_url('https://github.com/aaron-meche/tiger-framework')] onmousemove[cursorInfo(event,'Opens Github Repository')] onmouseout[dissolveCursorInfo()]
 		:: Framework
 	/block
 
-	block : class[item] onclick[open_url('https://github.com/aaron-meche/tiger-framework/wiki')] onmousemove[cursorInfo(event,'Opens Github Wiki')] onmouseout[dissolveCursorInfo()]
+	block : class[item] onclick[open_url('https://github.com/aaron-meche/tiger-language/wiki')] onmousemove[cursorInfo(event,'Opens Github Wiki')] onmouseout[dissolveCursorInfo()]
 		:: Wiki
 	/block
 
