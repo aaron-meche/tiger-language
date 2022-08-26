@@ -57,6 +57,11 @@
     font-weight: 400;
 }
 
+.panel-wrapper .panel .section .clickable-answer:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .panel-wrapper .panel{
     font-weight: 500;
 }
