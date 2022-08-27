@@ -32,9 +32,9 @@ function readTextFile(fileName) {
         if (rawFile.readyState === 4) {
             if (rawFile.responseText.includes('<pre>Cannot GET')) {
                 alert('404 Error: Invalid Page');
-                open_page(sessionStorage['loadPage']);
+                open_page(sessionStorage['activePage']);
             } else {
-                sessionStorage['loadPage'] = fileName;
+                sessionStorage['activePage'] = fileName;
                 buildPage(rawFile.responseText);
             }
         }
@@ -48,7 +48,7 @@ function buildPage(code) {
     // console.log(convertedCode);
     document.body.style.display = 'block';
     bodyOnLoadFunctions();
-    if (convertedCode.includes(`<link rel='stylesheet' ref='` + version + `/style.css'><script src='` + version + `/ui.js'></script>`)) {
+    if (convertedCode.includes("<meta name='tiger-ui'>")) {
         initiateUI();
     }
 }
@@ -163,7 +163,7 @@ function compile(code) {
                 format: '<link rel="shortcut icon" type="image/jpg" href="' + entry + '" ' + convertToAttribute(entry_2) + '>',
             },
             importtigerui: {
-                format: `<link rel='stylesheet' href='` + version + `/style.css'><script src='` + version + `/ui.js'></script>`,
+                format: `<meta name='tiger-ui'>`,
             },
 
 
@@ -306,17 +306,32 @@ function dom_ci(className, index) {
     return document.getElementsByClassName(className)[index];
 }
 
+function dom_qa(reference) {
+    return document.querySelectorAll(reference);
+}
+
 function testCompileSpeed(repeat) {
     for (let i = 0; i < repeat; i++) {
         pageOnloadTiger();
     }
 }
 
+
+
 window.addEventListener('keydown', function (event) {
     // console.log(event.code);
     // if (event.code == 'Backquote') unlockBox();
     if (event.code == 'Backslash') open_page(prompt("Enter Destination Page"));
 })
+
+// Mobile alternative ^^^
+window.addEventListener('touchstart', (e) => {
+    if (e.touches.length == 4) {
+        open_page(prompt("Enter Destination Page"));
+    }
+})
+
+
 
 function getFileContent(fileName) {
     loadedFile = fileName;
@@ -373,5 +388,60 @@ function ifPageExists(fileName) {
 // Designed to make beautiful, easier, and faster UIs
 
 function initiateUI() {
-    console.log('Tiger UI Loaded');
+    say('Tiger UI Version ' + version);
+
+    // Run clickable.buttons.tgrUI
+    let clickables = dom_qa('.clickable');
+    if (clickables) {
+        clickables.forEach(x => {
+            x.addEventListener('mousedown', () => {
+                x.style.opacity = '0.65';
+            });
+            x.addEventListener('mouseup', () => {
+                x.style.opacity = '1';
+            });
+
+            x.addEventListener('touchstart', () => {
+                x.style.opacity = '0.65';
+            });
+            x.addEventListener('touchend', () => {
+                x.style.opacity = '1';
+            });
+        });
+    }
+
+        // Run pull.down.tabs.tgrUI
+        let pullTabs = dom_qa('.pull-down-tab');
+        if (pullTabs) {
+            pullTabs.forEach(x => {
+                var startPos;
+                var dragOffset;
+                x.addEventListener('touchstart', (event) => {
+                    dragOffset = event.pageY - x.parentNode.offsetTop;
+                    startPos = x.parentNode.offsetTop;
+                });
+                x.addEventListener('touchmove', (event) => {
+                    x.parentNode.style.top = event.pageY - dragOffset;
+                });
+                x.addEventListener('touchend', () => {
+                    if (x.parentNode.offsetTop > startPos + 50) {
+                        // If pulled down more than 50 pixels, push down
+                        let transDuration = x.parentNode.style.transitionDuration;
+                        x.parentNode.style.transitionDuration = '500ms';
+                        x.parentNode.style.top = '100vh';
+                        setTimeout(function () {
+                            x.parentNode.style.transitionDuration = transDuration;
+                        }, 500);
+                    } else {
+                        // Revert back to the start if not pulled down enough
+                        let transDuration = x.parentNode.style.transitionDuration;
+                        x.parentNode.style.transitionDuration = '200ms';
+                        x.parentNode.style.top = startPos;
+                        setTimeout(function () {
+                            x.parentNode.style.transitionDuration = transDuration;
+                        }, 200);
+                    }
+                });
+            });
+        }
 }

@@ -1,7 +1,7 @@
 import tigerUI 
 
 block : class[top-navbar]
-    item : class[active]
+    item : class[active clickable]
         :: UI Library
     /item
     item : class[]

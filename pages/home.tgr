@@ -8,6 +8,8 @@ import css : mobile.css : media[screen and (hover: hover) and (pointer: fine) an
 import css : mobile.css : media[screen and (hover: none) and (pointer: coarse)]
 import meta : name[viewport] content[initial-scale = 1, user-scalable = no]
 
+import tigerUI
+
 title : Tiger Programming Language
 
 nav-block : class[left-navbar]
@@ -19,7 +21,7 @@ nav-block : class[left-navbar]
 		/item
 	/block
 
-	block : class[item active] onclick[window.location.reload()]
+	block : class[item active clickable]
 		:: Introduction
 	/block
 
@@ -158,3 +160,20 @@ block : id[cursorInfo] style[opacity: 0;]
 
 
 block : class[control-panel]/block
+
+
+
+
+
+
+
+
+block : class[module]
+	block : class[pull-down-tab]
+	/block
+
+
+	block : class[content]
+		:: Hello
+	/block
+/block
