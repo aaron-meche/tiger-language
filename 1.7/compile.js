@@ -2,7 +2,7 @@
 
 
 
-let version = '1.6';
+let version = '1.7';
 
 var loadKey;
 
@@ -85,7 +85,7 @@ function compile(code) {
 
         // Check if just normal test
         if (command.includes('$colon$$colon$')) {
-            let commend_without_starting_colon = command.replace('$colon$$colon$','').replace('$colon$',':');
+            let commend_without_starting_colon = command.replace('$colon$$colon$ ','').replace('$colon$',':');
             content = content + commend_without_starting_colon;
         } 
         // If not, remove spaces
@@ -287,53 +287,34 @@ function testCompileSpeed(repeat) {
 
 window.addEventListener('keydown', function (event) {
     // console.log(event.code);
-    if (event.code == 'Backquote') {
-        unlockBox();
-    }
+    // if (event.code == 'Backquote') unlockBox();
+    if (event.code == 'Backslash') open_page(prompt("Enter Destination Page"));
 })
 
-function unlockBox() {
-    document.body.innerHTML = document.body.innerHTML + `<link rel="stylesheet" href="https://tiger.baileo.us/1.7/style.css">"
-    <div>
-        <div class='panel-wrapper-background'></div>
-        <div class='panel-wrapper' ondblclick='this.parentNode.style.display="none"'>
-            <div class='panel'>
-                <div class='section'>
-                    <span class='label'>
-                        Tiger Version:
-                    </span>
-                    <span class='answer'>
-                        ` + version + `
-                    </span>
-                </div>
-                <div class='section'>
-                    <span class='label'>
-                        Current URL:
-                    </span>
-                    <span class='answer'>
-                        ` + window.location.href + `
-                    </span>
-                </div>
-                <div class='section'>
-                    <span class='label'>
-                        Current Page:
-                    </span>
-                    <span class='answer clickable-answer' onclick='open_page(prompt("Enter Destination Page"))'>
-                        ` + sessionStorage['activePage'] + `
-                    </span>
-                </div>
-                <div class='section'>
-                    <span class='label'>
-                        Data Items Stored in Browser:
-                    </span>
-                    <span class='answer'>
-                        ` + (localStorage.length + sessionStorage.length) + `
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    
-    `;
+function getFileContent(fileName) {
+    loadedFile = fileName;
+    let rawFile = new XMLHttpRequest();
+    rawFile.open("GET", fileName, true);
+    rawFile.onreadystatechange = function() {
+        if (rawFile.readyState === 4) {
+            return rawFile.responseText;
+        }
+    }
+    rawFile.send();
+}
+
+function ifPageExists(fileName) {
+    loadedFile = fileName;
+    let rawFile = new XMLHttpRequest();
+    rawFile.open("GET", 'pages/' + fileName + '.tgr', true);
+    rawFile.onreadystatechange = function() {
+        if (rawFile.readyState === 4) {
+            if (rawFile.responseText.includes('<pre>Cannot GET')) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+    rawFile.send();
 }

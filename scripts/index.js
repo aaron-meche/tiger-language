@@ -1,19 +1,3 @@
-var mobileNavMenuExpanded = false;
-
-function mobileNavMenu() {
-    if (mobileNavMenuExpanded) {
-        document.getElementById('mobileNavbarDropMenu').style.display = 'none';
-        document.getElementById('expandMobileNavMenu').style.display = 'block';
-        document.getElementById('closeMobileNavMenu').style.display = 'none';
-        mobileNavMenuExpanded = false;
-    } else {
-        document.getElementById('mobileNavbarDropMenu').style.display = 'block';
-        document.getElementById('expandMobileNavMenu').style.display = 'none';
-        document.getElementById('closeMobileNavMenu').style.display = 'block';
-        mobileNavMenuExpanded = true;
-    }
-}
-
 function dom(id) {
     return document.getElementById(id);
 }
