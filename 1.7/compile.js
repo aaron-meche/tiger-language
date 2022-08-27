@@ -7,29 +7,21 @@ let version = '1.7';
 var loadKey;
 
 window.addEventListener('load', function () {
-    pageOnloadTiger();
-})
-
-function pageOnloadTiger() {
     let urlParams = new URLSearchParams(document.location.search);
     let urlPageRequest = urlParams.get('p');
-    let loadPage = sessionStorage['activePage']
 
     if (urlPageRequest == undefined) {
-        if (loadPage == undefined) {
+        if (sessionStorage['activePage'] == undefined) {
             sessionStorage['activePage'] = 'home';
             readTextFile('home');
         } else {
-            readTextFile(loadPage);
+            readTextFile(sessionStorage['activePage']);
         }
     } else {
         readTextFile(urlPageRequest);
-        sessionStorage['activePage'] = urlPageRequest;
         open_url('index.html');
     }
-    
-    loadPage = sessionStorage['activePage'];
-}
+})
 
 function readTextFile(fileName) {
     loadedFile = fileName;
@@ -39,10 +31,10 @@ function readTextFile(fileName) {
         // console.log(rawFile.responseText);
         if (rawFile.readyState === 4) {
             if (rawFile.responseText.includes('<pre>Cannot GET')) {
-                alert('That page does not exist');
-                sessionStorage['activePage'] = 'home';
-                window.location.reload();
+                alert('404 Error: Invalid Page');
+                open_page(sessionStorage['loadPage']);
             } else {
+                sessionStorage['loadPage'] = fileName;
                 buildPage(rawFile.responseText);
             }
         }
@@ -56,6 +48,9 @@ function buildPage(code) {
     // console.log(convertedCode);
     document.body.style.display = 'block';
     bodyOnLoadFunctions();
+    if (convertedCode.includes(`<link rel='stylesheet' ref='` + version + `/style.css'><script src='` + version + `/ui.js'></script>`)) {
+        initiateUI();
+    }
 }
 
 
@@ -90,7 +85,7 @@ function compile(code) {
         } 
         // If not, remove spaces
         else {
-            command = command.replace(/\s/g, '').replace(/</g, '$startVector$').replace(/>/g, '$endVector$').replace(/\//g, '$fSlash$').replace(/-/g, '');
+            command = command.toLowerCase().replace(/\s/g, '').replace(/</g, '$startVector$').replace(/>/g, '$endVector$').replace(/\//g, '$fSlash$').replace(/-/g, '');
         }
 
         entry = canvas[1];
@@ -155,6 +150,8 @@ function compile(code) {
             portal: {
                 format: '<iframe src="' + convertToAttribute(entry) + '" + ' + convertToAttribute(entry_2) + '></iframe>',
             },
+
+
             // Imports
             importcss: {
                 format: '<link rel="stylesheet" href="' + entry + '" ' + convertToAttribute(entry_2) + '>',
@@ -163,8 +160,13 @@ function compile(code) {
                 format: '<script src="' + entry + '"></script>',
             },
             importwebicon: {
-                format: '<link rel="icon" type="image/x-icon" href="' + entry + '" ' + convertToAttribute(entry_2) + '>',
+                format: '<link rel="shortcut icon" type="image/jpg" href="' + entry + '" ' + convertToAttribute(entry_2) + '>',
             },
+            importtigerui: {
+                format: `<link rel='stylesheet' href='` + version + `/style.css'><script src='` + version + `/ui.js'></script>`,
+            },
+
+
             // Import Apple Mobile Web App
             importapplewebapp: {
                 format: '<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="' + entry + '">',
@@ -175,6 +177,8 @@ function compile(code) {
             importapplewebapptitle: {
                 format: '<meta name="apple-mobile-web-app-title" content="' + entry + '">',
             },
+
+
             // Div (block item)
             block: {
                 format: '<div ' + convertToAttribute(entry) + '>',
@@ -191,6 +195,8 @@ function compile(code) {
             $fSlash$block: {
                 format: '</div>',
             },
+
+
             // Span (link item)
             item: {
                 format: '<span ' + convertToAttribute(entry) + '>',
@@ -198,10 +204,14 @@ function compile(code) {
             $fSlash$item: {
                 format: '</span>',
             },
+
+
             // Meta Tag
             importmeta: {
                 format: '<meta ' + convertToAttribute(entry) + '>'
             },
+
+
             // Scripts
             initscript: {
                 format: '<script>' 
@@ -209,6 +219,8 @@ function compile(code) {
             conclscript: {
                 format: '</script>' 
             },
+
+
             // Declarations
             declarevar: {
                 format: '<div id="' + entry + '" style="display:none">' + entry_2 + '</div>'
@@ -260,7 +272,6 @@ function unspace(string) {
 
 function open_page(page) {
     readTextFile(page);
-    sessionStorage['activePage'] = page;
 }
 
 function open_url(page) {
@@ -276,7 +287,23 @@ function getVar(id) {
 }
 
 function dom(id) {
-    return document.getElementById(id)
+    return document.getElementById(id);
+}
+
+function dom_s(id) {
+    return document.getElementById(id).style;
+}
+
+function dom_html(id) {
+    return document.getElementById(id).innerHTML;
+}
+
+function dom_c(className) {
+    return document.getElementsByClassName(className);
+}
+
+function dom_ci(className, index) {
+    return document.getElementsByClassName(className)[index];
 }
 
 function testCompileSpeed(repeat) {
@@ -317,4 +344,34 @@ function ifPageExists(fileName) {
         }
     }
     rawFile.send();
+}
+
+
+
+
+
+
+
+
+
+
+
+// BEGIN TIGER UI LIBRARY
+
+
+
+
+
+
+
+
+
+
+
+// This javascript file was designed to be as sophisticated as possible
+// The Tiger UI library is inteded to be as powerful as any other UI library on the market!
+// Designed to make beautiful, easier, and faster UIs
+
+function initiateUI() {
+    console.log('Tiger UI Loaded');
 }
