@@ -160,20 +160,3 @@ block : id[cursorInfo] style[opacity: 0;]
 
 
 block : class[control-panel]/block
-
-
-
-
-
-
-
-
-block : class[module]
-	block : class[pull-down-tab]
-	/block
-
-
-	block : class[content]
-		:: Hello
-	/block
-/block
