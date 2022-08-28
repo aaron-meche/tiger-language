@@ -1,0 +1,73 @@
+import css : https://baileo.us/style/shared.css
+import css : https://baileo.us/style/desktop.css : media[screen and (hover: hover) and (pointer: fine) and (min-width: 900px)]
+import css : https://baileo.us/style/mobile.css : media[screen and (hover: hover) and (pointer: fine) and (max-width: 900px)]
+import css : https://baileo.us/style/mobile.css : media[screen and (hover: none) and (pointer: coarse)]
+import css : shared.css
+import css : desktop.css : media[screen and (hover: hover) and (pointer: fine) and (min-width: 900px)]
+import css : mobile.css : media[screen and (hover: hover) and (pointer: fine) and (max-width: 900px)]
+import css : mobile.css : media[screen and (hover: none) and (pointer: coarse)]
+import meta : name[viewport] content[initial-scale = 1, user-scalable = no]
+
+import tigerUI
+
+title : Tiger Programming Language
+
+nav-block : class[left-navbar]
+
+	block : class[logo-display]
+		image : images/logo.png
+		item : class[logo-text]
+			:: Tiger
+		/item
+	/block
+
+	block : class[item active clickable]
+		:: Introduction
+	/block
+
+	## : block : class[item] onclick[open_url('https://github.com/aaron-meche/tiger-framework/blob/main/README.txt')] onmousemove[cursorInfo(event,'Opens Github (README.txt)')] onmouseout[dissolveCursorInfo()]
+	## : 	:: Documentation
+	## : /block
+
+	block : class[item] onclick[open_url('https://github.com/aaron-meche/tiger-framework')] onmousemove[cursorInfo(event,'Opens Github Repository')] onmouseout[dissolveCursorInfo()]
+		:: Framework
+	/block
+
+	block : class[item] onclick[open_url('https://github.com/aaron-meche/tiger-language/wiki')] onmousemove[cursorInfo(event,'Opens Github Wiki')] onmouseout[dissolveCursorInfo()]
+		:: Wiki
+	/block
+
+/block
+
+nav-block : class[top-navbar]
+
+	image : https://baileo.us/images/menu.png : class[toggle-left-navbar-button] onclick[toggleLeftNavbar()]
+
+/block
+
+block : class[main-content]
+
+
+
+block : class[expand-panel-wrapper]
+
+	block : class[backdrop-clicker]
+	/block
+
+	block : class[expand-panel]
+	
+		block : class[top-bar pull-down-tab]
+			:: Pull down tab
+		/block
+
+		block : class[contents]
+			:: Contents
+		/block
+
+	/block
+
+/block
+
+
+
+/block
