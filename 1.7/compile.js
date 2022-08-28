@@ -410,38 +410,38 @@ function initiateUI() {
         });
     }
 
-        // Run pull.down.tabs.tgrUI
-        let pullTabs = dom_qa('.pull-down-tab');
-        if (pullTabs) {
-            pullTabs.forEach(x => {
-                var startPos;
-                var dragOffset;
-                x.addEventListener('touchstart', (event) => {
-                    dragOffset = event.pageY - x.parentNode.offsetTop;
-                    startPos = x.parentNode.offsetTop;
-                });
-                x.addEventListener('touchmove', (event) => {
-                    x.parentNode.style.top = event.pageY - dragOffset;
-                });
-                x.addEventListener('touchend', () => {
-                    if (x.parentNode.offsetTop > startPos + 50) {
-                        // If pulled down more than 50 pixels, push down
-                        let transDuration = x.parentNode.style.transitionDuration;
-                        x.parentNode.style.transitionDuration = '500ms';
-                        x.parentNode.style.top = '100vh';
-                        setTimeout(function () {
-                            x.parentNode.style.transitionDuration = transDuration;
-                        }, 500);
-                    } else {
-                        // Revert back to the start if not pulled down enough
-                        let transDuration = x.parentNode.style.transitionDuration;
-                        x.parentNode.style.transitionDuration = '200ms';
-                        x.parentNode.style.top = startPos;
-                        setTimeout(function () {
-                            x.parentNode.style.transitionDuration = transDuration;
-                        }, 200);
-                    }
-                });
+    // Run pull.down.tabs.tgrUI
+    let pullTabs = dom_qa('.pull-down-tab');
+    if (pullTabs) {
+        pullTabs.forEach(x => {
+            var startPos;
+            var dragOffset;
+            x.addEventListener('touchstart', (event) => {
+                dragOffset = event.pageY - x.parentNode.parentNode.offsetTop;
+                startPos = x.parentNode.parentNode.offsetTop;
             });
-        }
+            x.addEventListener('touchmove', (event) => {
+                x.parentNode.parentNode.style.top = event.pageY - dragOffset;
+            });
+            x.addEventListener('touchend', () => {
+                if (x.parentNode.parentNode.offsetTop > startPos + 50) {
+                    // If pulled down more than 50 pixels, push down
+                    let transDuration = x.parentNode.parentNode.style.transitionDuration;
+                    x.parentNode.parentNode.style.transitionDuration = '500ms';
+                    x.parentNode.parentNode.style.top = '100vh';
+                    setTimeout(function () {
+                        x.parentNode.parentNode.style.transitionDuration = transDuration;
+                    }, 500);
+                } else {
+                    // Revert back to the start if not pulled down enough
+                    let transDuration = x.parentNode.parentNode.style.transitionDuration;
+                    x.parentNode.parentNode.style.transitionDuration = '200ms';
+                    x.parentNode.parentNode.style.top = startPos;
+                    setTimeout(function () {
+                        x.parentNode.parentNode.style.transitionDuration = transDuration;
+                    }, 200);
+                }
+            });
+        });
+    }
 }
