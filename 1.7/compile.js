@@ -389,8 +389,13 @@ function ifPageExists(fileName) {
 
 function initiateUI() {
     say('Tiger UI Version ' + version);
+    initClickables();
+    initPullDownTabs();
+    initCursorFollowers();
+    initRightClickMenus();
+}
 
-    // Run clickable.buttons.tgrUI
+function initClickables() {
     let clickables = dom_qa('.clickable');
     if (clickables) {
         clickables.forEach(x => {
@@ -409,39 +414,121 @@ function initiateUI() {
             });
         });
     }
+}
 
-    // Run pull.down.tabs.tgrUI
+function initPullDownTabs() {
     let pullTabs = dom_qa('.pull-down-tab');
     if (pullTabs) {
         pullTabs.forEach(x => {
+            // Declare editable variables
             var startPos;
             var dragOffset;
+            var transDuration;
+
+            var mouseDown = false;
+            var initBackground;
+
+            // Set variables
+            initBackground = x.parentNode.parentNode.style.background;
+            startPos = x.parentNode.parentNode.offsetTop;
+            transDuration = x.parentNode.parentNode.style.transitionDuration;
+
+            // MOBILE
             x.addEventListener('touchstart', (event) => {
                 dragOffset = event.pageY - x.parentNode.parentNode.offsetTop;
-                startPos = x.parentNode.parentNode.offsetTop;
+                x.parentNode.parentNode.style.transitionDuration = '0ms';
             });
+
             x.addEventListener('touchmove', (event) => {
-                x.parentNode.parentNode.style.top = event.pageY - dragOffset;
+                x.parentNode.parentNode.style.top = event.pageY - dragOffset + 'px';
             });
+
             x.addEventListener('touchend', () => {
-                if (x.parentNode.parentNode.offsetTop > startPos + 50) {
+                if (x.parentNode.parentNode.offsetTop > startPos + 50 + 'px') {
                     // If pulled down more than 50 pixels, push down
-                    let transDuration = x.parentNode.parentNode.style.transitionDuration;
                     x.parentNode.parentNode.style.transitionDuration = '500ms';
                     x.parentNode.parentNode.style.top = '100vh';
+
                     setTimeout(function () {
                         x.parentNode.parentNode.style.transitionDuration = transDuration;
                     }, 500);
                 } else {
                     // Revert back to the start if not pulled down enough
-                    let transDuration = x.parentNode.parentNode.style.transitionDuration;
                     x.parentNode.parentNode.style.transitionDuration = '200ms';
-                    x.parentNode.parentNode.style.top = startPos;
+                    x.parentNode.parentNode.style.top = startPos + 'px';
+
                     setTimeout(function () {
                         x.parentNode.parentNode.style.transitionDuration = transDuration;
                     }, 200);
                 }
             });
+            
+            // DESKTOP
+            x.addEventListener('mousedown', (event) => {
+                dragOffset = event.pageY - x.parentNode.parentNode.offsetTop;
+                x.parentNode.parentNode.style.transitionDuration = '0ms';
+                mouseDown = true;
+            });
+            x.parentNode.parentNode.addEventListener('mousemove', (event) => {
+                if (mouseDown) {
+                    x.parentNode.parentNode.style.top = event.pageY - dragOffset + 'px';
+                    x.parentNode.parentNode.style.background = 'none';
+                }
+            });
+            x.addEventListener('mouseup', () => {
+                mouseDown = false;
+                if (x.parentNode.parentNode.offsetTop > startPos + 50) {
+                    // If pulled down more than 50 pixels, push down
+                    x.parentNode.parentNode.style.transitionDuration = '500ms';
+                    x.parentNode.parentNode.style.top = '100vh';
+                    setTimeout(function () {
+                        x.parentNode.parentNode.style.transitionDuration = transDuration;
+                        x.parentNode.parentNode.style.background = initBackground;
+                    }, 500);
+                } else {
+                    // Revert back to the start if not pulled down enough
+                    x.parentNode.parentNode.style.transitionDuration = '200ms';
+                    x.parentNode.parentNode.style.top = startPos + 'px';
+                    setTimeout(function () {
+                        x.parentNode.parentNode.style.transitionDuration = transDuration;
+                        x.parentNode.parentNode.style.background = initBackground;
+                    }, 200);
+                }
+            });
+        });
+    }
+}
+
+function initCursorFollowers() {
+    let cursorFollowers = dom_qa('.cursor-follower');
+    if (cursorFollowers) {
+        cursorFollowers.forEach(x => {
+            window.addEventListener('mousemove', function (event) {
+                x.style.opacity = '1'
+                x.style.position = 'fixed';
+                x.style.top = (event.clientY - (x.offsetHeight * 0.5)) + 'px';
+                x.style.left = (event.clientX - (x.offsetWidth * 0.5)) + 'px';
+            })
+            window.addEventListener('mouseout', function (event) {
+                x.style.opacity = '0';
+            })
+        });
+    }
+}
+
+function initRightClickMenus() {
+    let cursorFollowers = dom_qa('.cursor-follower');
+    if (cursorFollowers) {
+        cursorFollowers.forEach(x => {
+            window.addEventListener('mousemove', function (event) {
+                x.style.opacity = '1'
+                x.style.position = 'fixed';
+                x.style.top = (event.clientY - (x.offsetHeight * 0.5)) + 'px';
+                x.style.left = (event.clientX - (x.offsetWidth * 0.5)) + 'px';
+            })
+            window.addEventListener('mouseout', function (event) {
+                x.style.opacity = '0';
+            })
         });
     }
 }
