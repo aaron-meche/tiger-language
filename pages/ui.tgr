@@ -1,15 +1,10 @@
+import css : test.css
+import meta : name[viewport] content[initial-scale = 1, user-scalable = no]
 import tigerUI 
 
-block : class[top-navbar]
-    item : class[active clickable]
-        :: UI Library
-    /item
-    item : class[]
-        :: Example
-    /item
-    item : class[]
-        :: Demonstration
-    /item
+block : class[ob1]
+    block : class[ob2]
+        block : class[pull-down-tab]
+        /block
+    /block
 /block
-
-:: Hello, welcome to the Tiger UI Library

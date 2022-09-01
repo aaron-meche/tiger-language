@@ -393,7 +393,6 @@ function initiateUI() {
     initPullDownTabs();
     initCursorFollowers();
     initRightClickMenus();
-    initSelectionMenus();
 }
 
 function initClickables() {
@@ -421,18 +420,18 @@ function initPullDownTabs() {
     let pullTabs = dom_qa('.pull-down-tab');
     if (pullTabs) {
         pullTabs.forEach(x => {
+            var offsets = x.parentNode.parentNode.getBoundingClientRect();
+            var top = offsets.top;
+
             // Declare editable variables
-            var startPos;
+            // var startPos = top;
             var dragOffset;
-            var transDuration;
+            var transDuration = x.parentNode.parentNode.style.transitionDuration;
 
             var mouseDown = false;
-            var initBackground;
+            var initBackground = x.parentNode.parentNode.style.background;
 
-            // Set variables
-            initBackground = x.parentNode.parentNode.style.background;
-            startPos = x.parentNode.parentNode.offsetTop;
-            transDuration = x.parentNode.parentNode.style.transitionDuration;
+            x.parentNode.parentNode.style.position = 'fixed';
 
             // MOBILE
             x.addEventListener('touchstart', function(event) {
@@ -445,7 +444,7 @@ function initPullDownTabs() {
             });
 
             x.addEventListener('touchend', function() {
-                if (x.parentNode.parentNode.offsetTop > startPos + 50 + 'px') {
+                if (x.parentNode.parentNode.offsetTop > 50) {
                     // If pulled down more than 50 pixels, push down
                     x.parentNode.parentNode.style.transitionDuration = '500ms';
                     x.parentNode.parentNode.style.top = '100vh';
@@ -456,7 +455,7 @@ function initPullDownTabs() {
                 } else {
                     // Revert back to the start if not pulled down enough
                     x.parentNode.parentNode.style.transitionDuration = '200ms';
-                    x.parentNode.parentNode.style.top = startPos + 'px';
+                    x.parentNode.parentNode.style.top = '0';
 
                     setTimeout(function () {
                         x.parentNode.parentNode.style.transitionDuration = transDuration;
@@ -478,7 +477,7 @@ function initPullDownTabs() {
             });
             x.addEventListener('mouseup', function() {
                 mouseDown = false;
-                if (x.parentNode.parentNode.offsetTop > startPos + 50) {
+                if (x.parentNode.parentNode.offsetTop > 50) {
                     // If pulled down more than 50 pixels, push down
                     x.parentNode.parentNode.style.transitionDuration = '500ms';
                     x.parentNode.parentNode.style.top = '100vh';
@@ -489,7 +488,7 @@ function initPullDownTabs() {
                 } else {
                     // Revert back to the start if not pulled down enough
                     x.parentNode.parentNode.style.transitionDuration = '200ms';
-                    x.parentNode.parentNode.style.top = startPos + 'px';
+                    x.parentNode.parentNode.style.top = '0';
                     setTimeout(function () {
                         x.parentNode.parentNode.style.transitionDuration = transDuration;
                         x.parentNode.parentNode.style.background = initBackground;
