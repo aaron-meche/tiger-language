@@ -46,15 +46,12 @@ h1{
     font-size: 13pt;
     font-weight: 600;
     font-family:monospace;
+    z-index: 0;
 }
 
 h2{
     padding-top: 10pt;
     text-align: center;
-}
-
-.top-navbar{
-    z-index: 0;
 }
 
 
@@ -92,4 +89,29 @@ h2{
 .expand-panel .top-bar{
     background-color: blue;
     padding: 15pt;
+}
+
+.right-click-menu{
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(5px);
+    -moz-backdrop-filter: blur(5px);
+    border-radius: 10px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    padding: 10px;
+    color: black;
+    font-size: 12pt;
+    display: none;
+}
+
+.right-click-menu .item{
+    padding: 7px;
+    border-radius: 7px;
+    cursor: default;
+}
+
+.right-click-menu .item:hover{
+    background: rgba(99, 99, 220, 0.25);
+    color: rgb(17, 31, 136);
 }

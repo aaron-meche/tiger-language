@@ -393,23 +393,24 @@ function initiateUI() {
     initPullDownTabs();
     initCursorFollowers();
     initRightClickMenus();
+    initSelectionMenus();
 }
 
 function initClickables() {
     let clickables = dom_qa('.clickable');
     if (clickables) {
         clickables.forEach(x => {
-            x.addEventListener('mousedown', () => {
+            x.addEventListener('mousedown', function() {
                 x.style.opacity = '0.65';
             });
-            x.addEventListener('mouseup', () => {
+            x.addEventListener('mouseup', function() {
                 x.style.opacity = '1';
             });
 
-            x.addEventListener('touchstart', () => {
+            x.addEventListener('touchstart', function() {
                 x.style.opacity = '0.65';
             });
-            x.addEventListener('touchend', () => {
+            x.addEventListener('touchend', function() {
                 x.style.opacity = '1';
             });
         });
@@ -434,16 +435,16 @@ function initPullDownTabs() {
             transDuration = x.parentNode.parentNode.style.transitionDuration;
 
             // MOBILE
-            x.addEventListener('touchstart', (event) => {
+            x.addEventListener('touchstart', function(event) {
                 dragOffset = event.pageY - x.parentNode.parentNode.offsetTop;
                 x.parentNode.parentNode.style.transitionDuration = '0ms';
             });
 
-            x.addEventListener('touchmove', (event) => {
+            x.addEventListener('touchmove', function(event) {
                 x.parentNode.parentNode.style.top = event.pageY - dragOffset + 'px';
             });
 
-            x.addEventListener('touchend', () => {
+            x.addEventListener('touchend', function() {
                 if (x.parentNode.parentNode.offsetTop > startPos + 50 + 'px') {
                     // If pulled down more than 50 pixels, push down
                     x.parentNode.parentNode.style.transitionDuration = '500ms';
@@ -464,18 +465,18 @@ function initPullDownTabs() {
             });
             
             // DESKTOP
-            x.addEventListener('mousedown', (event) => {
+            x.addEventListener('mousedown', function(event) {
                 dragOffset = event.pageY - x.parentNode.parentNode.offsetTop;
                 x.parentNode.parentNode.style.transitionDuration = '0ms';
                 mouseDown = true;
             });
-            x.parentNode.parentNode.addEventListener('mousemove', (event) => {
+            window.addEventListener('mousemove', function(event) {
                 if (mouseDown) {
                     x.parentNode.parentNode.style.top = event.pageY - dragOffset + 'px';
                     x.parentNode.parentNode.style.background = 'none';
                 }
             });
-            x.addEventListener('mouseup', () => {
+            x.addEventListener('mouseup', function() {
                 mouseDown = false;
                 if (x.parentNode.parentNode.offsetTop > startPos + 50) {
                     // If pulled down more than 50 pixels, push down
@@ -509,7 +510,7 @@ function initCursorFollowers() {
                 x.style.top = (event.clientY - (x.offsetHeight * 0.5)) + 'px';
                 x.style.left = (event.clientX - (x.offsetWidth * 0.5)) + 'px';
             })
-            window.addEventListener('mouseout', function (event) {
+            window.addEventListener('mouseout', function () {
                 x.style.opacity = '0';
             })
         });
@@ -517,17 +518,32 @@ function initCursorFollowers() {
 }
 
 function initRightClickMenus() {
-    let cursorFollowers = dom_qa('.cursor-follower');
-    if (cursorFollowers) {
-        cursorFollowers.forEach(x => {
-            window.addEventListener('mousemove', function (event) {
-                x.style.opacity = '1'
-                x.style.position = 'fixed';
-                x.style.top = (event.clientY - (x.offsetHeight * 0.5)) + 'px';
-                x.style.left = (event.clientX - (x.offsetWidth * 0.5)) + 'px';
+    let rightClickMenu = dom_qa('.right-click-menu');
+    if (rightClickMenu) {
+        rightClickMenu.forEach(x => {
+            x.addEventListener('mouseover', function() {
+                x.style.display = 'block';
             })
-            window.addEventListener('mouseout', function (event) {
-                x.style.opacity = '0';
+
+            x.addEventListener('mouseout', function() {
+                x.style.display = 'none';
+            })
+
+            window.addEventListener('contextmenu', function (event) {
+                event.preventDefault();
+                x.style.display = 'block';
+                x.style.position = 'absolute';
+                x.style.zIndex = '100000000000';
+                x.style.top = event.pageY - 5 + 'px';
+                x.style.left = event.pageX - 5 + 'px';
+            })
+
+            window.addEventListener('click', function () {
+                x.style.display = 'none';
+            })
+
+            window.addEventListener('scroll', function () {
+                x.style.display = 'none';
             })
         });
     }

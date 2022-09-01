@@ -157,6 +157,14 @@ block : id[cursorInfo] style[opacity: 0;]
 
 
 
-
-
-block : class[control-panel]/block
+block : class[right-click-menu]
+	block : class[item]
+		:: Page Navigator
+	/block
+		block : class[item]
+		:: Learn More
+	/block
+		block : class[item]
+		:: Create a Tiger Project
+	/block
+/block
