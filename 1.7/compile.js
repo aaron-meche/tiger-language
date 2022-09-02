@@ -34,7 +34,9 @@ function readTextFile(fileName) {
                 alert('404 Error: Invalid Page');
                 open_page(sessionStorage['activePage']);
             } else {
-                sessionStorage['activePage'] = fileName;
+                if (!dom('loadWindow')) {
+                    sessionStorage['activePage'] = fileName;
+                }
                 buildPage(rawFile.responseText);
             }
         }
