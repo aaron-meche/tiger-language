@@ -50,7 +50,15 @@ function buildPage(code) {
         dom('loadWindow').innerHTML = convertedCode;
     } else {
         document.body.innerHTML = convertedCode;
+
+        // Page Specific CSS Pages
         document.body.innerHTML = document.body.innerHTML + "<link rel='stylesheet' href='style/" + sessionStorage['activePage'] +  ".tgr.css'>"
+
+        // Page Specific JS Scripts
+        var script = document.createElement("script");
+        script.src = "scripts/" + sessionStorage['activePage'] + ".tgr.js";
+        script.type = "text/javascript";
+        document.head.appendChild(script);
     }
     // console.log(convertedCode);
     document.body.style.display = 'block';
