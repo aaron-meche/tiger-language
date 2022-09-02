@@ -44,7 +44,11 @@ function readTextFile(fileName) {
 
 function buildPage(code) {
     let convertedCode = compile(code)
-    document.body.innerHTML = convertedCode;
+    if (dom('loadWindow')) {
+        dom('loadWindow').innerHTML = convertedCode;
+    } else {
+        document.body.innerHTML = convertedCode;
+    }
     // console.log(convertedCode);
     document.body.style.display = 'block';
     bodyOnLoadFunctions();
@@ -78,7 +82,7 @@ function compile(code) {
 
         command = canvas[0].replace(/:/g, '$colon$');
 
-        // Check if just normal test
+        // Check if just normal text
         if (command.includes('$colon$$colon$')) {
             let commend_without_starting_colon = command.replace('$colon$$colon$ ','').replace('$colon$',':');
             content = content + commend_without_starting_colon;
@@ -156,6 +160,9 @@ function compile(code) {
             importcss: {
                 format: '<link rel="stylesheet" href="' + entry + '" ' + convertToAttribute(entry_2) + '>',
             },
+            importstandlib: {
+                format: '<link rel="stylesheet" href="style/main.css">',
+            },
             importjs: {
                 format: '<script src="' + entry + '"></script>',
             },
@@ -183,14 +190,8 @@ function compile(code) {
             block: {
                 format: '<div ' + convertToAttribute(entry) + '>',
             },
-            textblock: {
-                format: '<div ' + convertToAttribute(entry) + '>',
-            },
-            navblock: {
-                format: '<div ' + convertToAttribute(entry) + '>',
-            },
-            block: {
-                format: '<div ' + convertToAttribute(entry) + '>',
+            lineblock: {
+                format: '<div ' + convertToAttribute(entry) + '>' + entry_2 + '</div>',
             },
             $fSlash$block: {
                 format: '</div>',
@@ -200,6 +201,9 @@ function compile(code) {
             // Span (link item)
             item: {
                 format: '<span ' + convertToAttribute(entry) + '>',
+            },
+            lineitem: {
+                format: '<span ' + convertToAttribute(entry) + '>' + entry_2 + '</span>',
             },
             $fSlash$item: {
                 format: '</span>',
