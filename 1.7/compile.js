@@ -201,7 +201,7 @@ function compile(code) {
             block: {
                 format: '<div ' + convertToAttribute(entry) + '>',
             },
-            lineblock: {
+            lnb: {
                 format: '<div ' + convertToAttribute(entry) + '>' + entry_2 + '</div>',
             },
             $fSlash$block: {
@@ -213,7 +213,7 @@ function compile(code) {
             item: {
                 format: '<span ' + convertToAttribute(entry) + '>',
             },
-            lineitem: {
+            lni: {
                 format: '<span ' + convertToAttribute(entry) + '>' + entry_2 + '</span>',
             },
             $fSlash$item: {
