@@ -27,9 +27,12 @@ function readTextFile(fileName) {
     loadedFile = fileName;
     let rawFile = new XMLHttpRequest();
 
-    let filePath = 'pages/';
+    var filePath;
     if (document.body.innerHTML.includes('<meta name="encrypt-tiger">')) {
-        filePath = '../../pages/';
+        filePath = '../pages/';
+        console.log('Encrypted Pages : Active');
+    } else {
+        filePath = 'pages/';
     }
 
     rawFile.open("GET", filePath + fileName + ".tgr", true);
