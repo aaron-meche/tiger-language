@@ -29,7 +29,7 @@ function readTextFile(fileName) {
 
     let filePath = 'pages/';
     if (document.body.innerHTML.includes('<meta name="encrypt-tiger">')) {
-        filePath = '../pages/';
+        filePath = '../../pages/';
     }
 
     rawFile.open("GET", filePath + fileName + ".tgr", true);
