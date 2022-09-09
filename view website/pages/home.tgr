@@ -2,10 +2,10 @@ import css : https://baileo.us/style/shared.css
 import css : https://baileo.us/style/desktop.css : media[screen and (hover: hover) and (pointer: fine) and (min-width: 900px)]
 import css : https://baileo.us/style/mobile.css : media[screen and (hover: hover) and (pointer: fine) and (max-width: 900px)]
 import css : https://baileo.us/style/mobile.css : media[screen and (hover: none) and (pointer: coarse)]
-import css : shared.css
-import css : desktop.css : media[screen and (hover: hover) and (pointer: fine) and (min-width: 900px)]
-import css : mobile.css : media[screen and (hover: hover) and (pointer: fine) and (max-width: 900px)]
-import css : mobile.css : media[screen and (hover: none) and (pointer: coarse)]
+import css : style/shared.css
+import css : style/desktop.css : media[screen and (hover: hover) and (pointer: fine) and (min-width: 900px)]
+import css : style/mobile.css : media[screen and (hover: hover) and (pointer: fine) and (max-width: 900px)]
+import css : style/mobile.css : media[screen and (hover: none) and (pointer: coarse)]
 import meta : name[viewport] content[initial-scale = 1, user-scalable = no]
 
 import tigerUI

@@ -51,14 +51,12 @@ function buildPage(code) {
     } else {
         document.body.innerHTML = convertedCode;
 
-        // Page Specific CSS Pages
-        document.body.innerHTML = document.body.innerHTML + "<link rel='stylesheet' href='style/" + sessionStorage['activePage'] +  ".tgr.css'>"
-
-        // Page Specific JS Scripts
-        var script = document.createElement("script");
-        script.src = "scripts/" + sessionStorage['activePage'] + ".tgr.js";
-        script.type = "text/javascript";
-        document.head.appendChild(script);
+        if (convertedCode.includes('<meta name="import-js"')) {
+            var script = document.createElement("script");
+            script.src = document.querySelector('meta[name="import-js"]').content;
+            script.type = "text/javascript";
+            document.head.appendChild(script);
+        };
     }
     // console.log(convertedCode);
     document.body.style.display = 'block';
@@ -175,13 +173,25 @@ function compile(code) {
                 format: '<link rel="stylesheet" href="style/main.css">',
             },
             importjs: {
-                format: '<script src="' + entry + '"></script>',
+                format: '<meta name="import-js" content="' + entry + '"></script>',
             },
             importwebicon: {
                 format: '<link rel="shortcut icon" type="image/jpg" href="' + entry + '" ' + convertToAttribute(entry_2) + '>',
             },
+            importmeta: {
+                format: '<meta ' + convertToAttribute(entry) + '>',
+            },
             importtigerui: {
-                format: `<meta name='tiger-ui'>`,
+                format: "<meta name='tiger-ui'>",
+            },
+            importmodule: {
+                format: "<meta name='import-module' content='" + entry + "'>",
+            },
+
+
+            // Modules
+            moduleinfo: {
+                format: "<item moduleInfo='" + entry + "'>",
             },
 
 
@@ -218,27 +228,6 @@ function compile(code) {
             },
             $fSlash$item: {
                 format: '</span>',
-            },
-
-
-            // Meta Tag
-            importmeta: {
-                format: '<meta ' + convertToAttribute(entry) + '>'
-            },
-
-
-            // Scripts
-            initscript: {
-                format: '<script>' 
-            },
-            conclscript: {
-                format: '</script>' 
-            },
-
-
-            // Declarations
-            declarevar: {
-                format: '<div id="' + entry + '" style="display:none">' + entry_2 + '</div>'
             },
         }
 
