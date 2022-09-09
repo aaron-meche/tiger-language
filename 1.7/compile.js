@@ -13,10 +13,8 @@ window.addEventListener('load', function () {
     if (urlPageRequest == undefined) {
         if (sessionStorage['activePage'] == undefined) {
             sessionStorage['activePage'] = 'home';
-            readTextFile('home');
-        } else {
-            readTextFile(sessionStorage['activePage']);
         }
+        readTextFile(sessionStorage['activePage']);
     } else {
         readTextFile(urlPageRequest);
         open_url('index.html');
@@ -28,9 +26,8 @@ function readTextFile(fileName) {
     let rawFile = new XMLHttpRequest();
 
     var filePath;
-    if (document.body.innerHTML.includes('<meta name="encrypt-tiger">')) {
+    if (document.head.innerHTML.includes('<meta name="encrypt-tiger">')) {
         filePath = '../pages/';
-        console.log('Encrypted Pages : Active');
     } else {
         filePath = 'pages/';
     }
