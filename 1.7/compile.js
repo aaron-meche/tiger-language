@@ -26,13 +26,18 @@ window.addEventListener('load', function () {
 function readTextFile(fileName) {
     loadedFile = fileName;
     let rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "pages/" + fileName + ".tgr", true);
+
+    let filePath = 'pages/';
+    if (document.body.innerHTML.includes('<meta name="encrypt-tiger">')) {
+        filePath = '../pages/';
+    }
+
+    rawFile.open("GET", filePath + fileName + ".tgr", true);
     rawFile.onreadystatechange = function() {
         // console.log(rawFile.responseText);
         if (rawFile.readyState === 4) {
             if (rawFile.responseText.includes('<pre>Cannot GET')) {
-                alert('404 Error: Invalid Page');
-                open_page(sessionStorage['activePage']);
+                open_page('404')
             } else {
                 if (!dom('loadWindow')) {
                     sessionStorage['activePage'] = fileName;
