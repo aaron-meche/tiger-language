@@ -38,6 +38,7 @@ function readTextFile(fileName) {
         if (rawFile.readyState === 4) {
             if (rawFile.responseText.includes('<pre>Cannot GET')) {
                 alert('Error 404');
+                open_page('home');
             } else {
                 if (!dom('loadWindow')) {
                     sessionStorage['activePage'] = fileName;
