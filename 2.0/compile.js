@@ -2,7 +2,7 @@
 
 
 
-let version = '1.7';
+let version = '1.8';
 
 var loadKey;
 
@@ -37,7 +37,7 @@ function readTextFile(fileName) {
         // console.log(rawFile.responseText);
         if (rawFile.readyState === 4) {
             if (rawFile.responseText.includes('<pre>Cannot GET')) {
-                open_page('404')
+                alert('Error 404');
             } else {
                 if (!dom('loadWindow')) {
                     sessionStorage['activePage'] = fileName;

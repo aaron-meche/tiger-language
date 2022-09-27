@@ -1,0 +1,82 @@
+:root{
+      --seafoam: #80DCB7;
+      --aqua: #13335c;
+      --darkAqua: rgb(18, 18, 47);
+      --silverAqua: rgb(40, 55, 93);
+      --princeton: #FF8F00;
+      --honey: #F6AE2D;
+      --violetBlue: rgb(54, 54, 105);
+      --lightPistachio: #9AB9AC;
+      --vanillaCream: #E5D9BE;
+      --softLightBlue: #91A7CF;
+      --burntOrange: #BC6039;
+      --silkyPurple: #7B6380;
+      --darkPlum: #24105C;
+      --royalPurple: #51284a;
+      --spruceLeaves: #2C494B;
+      --toyPurple: rgb(178, 129, 246);
+      --lilyBlue: rgb(197, 171, 254);
+      --blueRaspberry: #20427A;
+      --grapeTaffy: #5E468B;
+      --spacePurple: rgb(38, 25, 56);
+      --plutoBlue: rgb(33, 35, 52);
+      --charcoal: rgb(21,21,23);
+      --lavendarBlush: #EEE5E9;
+      --grannySmithApple: #9CD08F;
+      --asparagus: #87A461;
+      --raisinBlack: #443a51;
+      --tumbleweed: #F4B393;
+      --lightSalmon: #FDA579;
+      --teaGreen: #C5DBBC;
+      --olivine: #92BA78;
+      --boldOlivine: #71905c;
+      --darkOlivine: #4f5f44;
+      --onyx: rgb(32,32,33);
+      --darkgray: rgb(51, 51, 51);
+  
+      --accentColor: var(--lightPistachio);
+      --popBorder: var(--seafoam);
+      --wallpaper: rgb(28, 2, 28);
+  
+      --mainFont: BaileyScript;
+}
+  
+@font-face {
+      font-family: 'BaileyScript';
+      src: url('BaileyScript/BaileyScript.ttf');
+}  
+
+body{
+      margin: 0;
+      background: var(--wallpaper);
+      font-family: var(--mainFont);
+      font-weight: 400;
+}
+
+.top-menubar{
+      background-color: rgba(255, 255, 255, 0.2);
+      position: relative;
+}
+
+.top-menubar .item{
+      display: inline-block;
+      padding: 6pt;
+      font-size: 11pt;
+      font-weight: 300;
+      color: rgb(206, 206, 206);
+      cursor: default;
+}
+
+.top-menubar .item:hover{
+      background-color: rgba(255, 255, 255, 0.1);
+}
+
+.top-menubar .main{
+      font-weight: 400;
+}
+
+.top-menubar .right{
+      position: absolute;
+      top: 0;
+      right: 0;
+}

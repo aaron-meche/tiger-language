@@ -1,3 +1,15 @@
-import js : scripts/index.js
+block : class[top-menubar]
+      lnb : class[item main] : tigerOS
+      ## : lnb : class[item] : File
+      ## : lnb : class[item] : Edit
+      ## : lnb : class[item] : Window
+      ## : lnb : class[item] : Color
+      ## : lnb : class[item] : Scale
 
-:: Hello, welcome to online operating system
+      block : class[right]
+            lnb : class[item] : App Menu
+            ## : lnb : class[item] : Software Library
+            ## : lnb : class[item] : System Settings
+            ## : lnb : class[item] : UI Design
+      /block
+/block
