@@ -1,48 +1,50 @@
-// MAIN JAVASCRIPT
-
-
-
-let version = '1.8';
+let version = '3.0';
 
 var loadKey;
 
+// When the page loads
 window.addEventListener('load', function () {
-    let urlParams = new URLSearchParams(document.location.search);
-    let urlPageRequest = urlParams.get('p');
+    // Hide the body
+    document.body.style.visbility = 'hidden';
 
-    if (urlPageRequest == undefined) {
+    // Get Page Push
+    let url = new URLSearchParams(document.location.search);
+    let pagePush = url.get('p');
+
+    // Default Page Load
+    if (pagePush == undefined) {
         if (sessionStorage['activePage'] == undefined) {
             sessionStorage['activePage'] = 'home';
         }
-        readTextFile(sessionStorage['activePage']);
-    } else {
-        readTextFile(urlPageRequest);
+        boot(sessionStorage['activePage']);
+    } 
+    // If Page Push Present
+    else {
+        boot(pagePush);
         open_url('index.html');
     }
 })
 
-function readTextFile(fileName) {
-    loadedFile = fileName;
+function boot(fileName) {
     let rawFile = new XMLHttpRequest();
 
-    var filePath;
+    // If encrypt tiger, change source
+    var filePath = 'pages/';
     if (document.head.innerHTML.includes('<meta name="encrypt-tiger">')) {
         filePath = '../pages/';
-    } else {
-        filePath = 'pages/';
     }
 
+    // Get contents of page
     rawFile.open("GET", filePath + fileName + ".tgr", true);
     rawFile.onreadystatechange = function() {
-        // console.log(rawFile.responseText);
         if (rawFile.readyState === 4) {
+            // If page does not exist
             if (rawFile.responseText.includes('<pre>Cannot GET')) {
                 alert('Error 404');
                 open_page('home');
-            } else {
-                if (!dom('loadWindow')) {
-                    sessionStorage['activePage'] = fileName;
-                }
+            } 
+            // If page exists, build page
+            else {
                 buildPage(rawFile.responseText);
             }
         }
@@ -51,22 +53,21 @@ function readTextFile(fileName) {
 }
 
 function buildPage(code) {
+    // Get compiled code
     let convertedCode = compile(code)
-    if (dom('loadWindow')) {
-        dom('loadWindow').innerHTML = convertedCode;
-    } else {
-        document.body.innerHTML = convertedCode;
+    document.body.innerHTML = convertedCode;
 
-        if (convertedCode.includes('<meta name="import-js"')) {
-            var script = document.createElement("script");
-            script.src = document.querySelector('meta[name="import-js"]').content;
-            script.type = "text/javascript";
-            document.head.appendChild(script);
-        };
-    }
-    // console.log(convertedCode);
-    document.body.style.display = 'block';
-    bodyOnLoadFunctions();
+    // If call for importing JS, import here
+    if (convertedCode.includes('<meta name="import-js"')) {
+        var script = document.createElement("script");
+        script.src = document.querySelector('meta[name="import-js"]').content;
+        script.type = "text/javascript";
+        document.head.appendChild(script);
+    };
+
+    // Allow the body of the document to be visible
+    document.body.style.visbility = 'visible';
+    main();
     if (convertedCode.includes("<meta name='tiger-ui'>")) {
         initiateUI();
     }
@@ -81,189 +82,187 @@ function buildPage(code) {
 let compileTime = 0;
 
 function compile(code) {
-    var canvas;
-    var command;
-    var entry;
-    var entry_2;
-
-    var content = '';
+    // Will hold viewport contents
+    var collection = '';
     var splitCode = code.split(/\n/);
-
     console.time('Compiler Time');
 
+    // Cycles through every line of code
     for (i = 0; i < splitCode.length; i++) {
-        canvas = splitCode[i].split(' : ');
-        // console.log(canvas);
+        let line = splitCode[i].split(' > ');
+        let instruction = line[0];
+        let value = line[1];
+        let extra = line[2];
 
-        command = canvas[0].replace(/:/g, '$colon$');
 
-        // Check if just normal text
-        if (command.includes('$colon$$colon$')) {
-            let commend_without_starting_colon = command.replace('$colon$$colon$ ','').replace('$colon$',':');
-            content = content + commend_without_starting_colon;
+        // Reading Lines
+
+        // Ignore blank lines
+        if (line == '') {
+            continue;
         } 
-        // If not, remove spaces
+        // Ignore comments
+        if (line[0].trim().split('')[0] == '~') {
+            continue;
+        } 
+        // Check if normal text
+        else if (line[0].trim().split('')[0] == ':') {
+            collection += instruction.replace(': ','');
+            continue;
+        } 
+        // If not, treat as normal and remove spaces
         else {
-            command = command.toLowerCase().replace(/\s/g, '').replace(/</g, '$startVector$').replace(/>/g, '$endVector$').replace(/\//g, '$fSlash$').replace(/-/g, '');
+            instruction = instruction.toLowerCase().replaceAll(' ', '').replaceAll('<', '$leftPoint$').replaceAll('>', '$rightPoint$').replaceAll('/', '$slash$');
         }
 
-        entry = canvas[1];
-        entry_2 = canvas[2];
 
+        // Dictionary
         const objects = {
             // Standard HTML Items
             title: {
-                format: '<title' + convertToAttribute(entry_2) + '>' + entry + '</title>',
+                format: '<title' + convertToAttribute(extra) + '>' + value + '</title>',
             },
             button: {
-                format: '<button ' + convertToAttribute(entry_2) + '>' + entry + '</button>',
+                format: '<button ' + convertToAttribute(extra) + '>' + value + '</button>',
             },
-            image: {
-                format: '<img src="' + entry + '" ' + convertToAttribute(entry_2) + '>',
+            img: {
+                format: '<img src="' + value + '" ' + convertToAttribute(extra) + '>',
             },
             link: {
-                format: ' <a href="' + entry + '" ' + convertToAttribute(entry_2) + '>',
+                format: ' <a href="' + value + '" ' + convertToAttribute(extra) + '>',
             },
-            $fSlash$link: {
+            $slash$link: {
                 format: '</a> ',
             },
             h: {
-                format: '<h1 ' + convertToAttribute(entry_2) + '>' + entry + '</h1>',
+                format: '<h1 ' + convertToAttribute(extra) + '>' + value + '</h1>',
             },
             hh: {
-                format: '<h2 ' + convertToAttribute(entry_2) + '>' + entry + '</h2>',
+                format: '<h2 ' + convertToAttribute(extra) + '>' + value + '</h2>',
             },
             hhh: {
-                format: '<h3 ' + convertToAttribute(entry_2) + '>' + entry + '</h3>',
+                format: '<h3 ' + convertToAttribute(extra) + '>' + value + '</h3>',
             },
             p: {
                 format: '<p>',
             },
-            $fSlash$p: {
+            $slash$p: {
                 format: '</p>',
             },
             break: {
                 format: '<br>',
             },
             form: {
-                format: '<form ' + convertToAttribute(entry) + '>',
+                format: '<form ' + convertToAttribute(value) + '>',
             },
-            $fSlash$form: {
+            $slash$form: {
                 format: '</form>',
             },
             input: {
-                format: '<input ' + convertToAttribute(entry) + '>',
+                format: '<input ' + convertToAttribute(value) + '>',
             },
             video: {
-                format: '<video ' + convertToAttribute(entry_2) + '><source src="' + entry + '"></video>',
+                format: '<video ' + convertToAttribute(extra) + '><source src="' + value + '"></video>',
             },
             videoskin: {
-                format: '<video ' + convertToAttribute(entry) + '>',
+                format: '<video ' + convertToAttribute(value) + '>',
             },
-            $fSlash$videoskin: {
+            $slash$videoskin: {
                 format: '</video>',
             },
             source: {
-                format: '<source src="' + entry + '"' + ' ' + convertToAttribute(entry_2) + '>',
+                format: '<source src="' + value + '"' + ' ' + convertToAttribute(extra) + '>',
             },
             portal: {
-                format: '<iframe src="' + convertToAttribute(entry) + '" + ' + convertToAttribute(entry_2) + '></iframe>',
+                format: '<iframe src="' + convertToAttribute(value) + '" + ' + convertToAttribute(extra) + '></iframe>',
             },
 
 
             // Imports
             importcss: {
-                format: '<link rel="stylesheet" href="' + entry + '" ' + convertToAttribute(entry_2) + '>',
-            },
-            importstandlib: {
-                format: '<link rel="stylesheet" href="style/main.css">',
+                format: '<link rel="stylesheet" href="' + value + '.css" ' + convertToAttribute(extra) + '>',
             },
             importjs: {
-                format: '<meta name="import-js" content="' + entry + '"></script>',
+                format: '<meta name="import-js" content="' + value + '.js"></script>',
             },
             importwebicon: {
-                format: '<link rel="shortcut icon" type="image/jpg" href="' + entry + '" ' + convertToAttribute(entry_2) + '>',
+                format: '<link rel="shortcut icon" type="image/jpg" href="' + value + '" ' + convertToAttribute(extra) + '>',
             },
             importmeta: {
-                format: '<meta ' + convertToAttribute(entry) + '>',
+                format: '<meta ' + convertToAttribute(value) + '>',
             },
             importtigerui: {
                 format: "<meta name='tiger-ui'>",
             },
             importmodule: {
-                format: "<meta name='import-module' content='" + entry + "'>",
+                format: "<meta name='import-module' content='" + value + "'>",
             },
 
 
             // Modules
             moduleinfo: {
-                format: "<item moduleInfo='" + entry + "'>",
+                format: "<item moduleInfo='" + value + "'>",
             },
 
 
             // Import Apple Mobile Web App
             importapplewebapp: {
-                format: '<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="' + entry + '">',
+                format: '<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="' + value + '">',
             },
             importapplewebappicon: {
-                format: '<link rel="apple-touch-icon" href="' + entry + '">',
+                format: '<link rel="apple-touch-icon" href="' + value + '">',
             },
             importapplewebapptitle: {
-                format: '<meta name="apple-mobile-web-app-title" content="' + entry + '">',
+                format: '<meta name="apple-mobile-web-app-title" content="' + value + '">',
             },
 
 
-            // Div (block item)
+            // Elements
+            div: {
+                format: '<div ' + convertToAttribute(value) + '>',
+            }, 
+            elem: {
+                format: '<div ' + convertToAttribute(value) + '>',
+            },            
+            lnelem: {
+                format: '<div ' + convertToAttribute(value) + '>' + extra + '</div>',
+            },
             block: {
-                format: '<div ' + convertToAttribute(entry) + '>',
+                format: '<div style="display:block;" ' + convertToAttribute(value) + '>',
             },
-            lnb: {
-                format: '<div ' + convertToAttribute(entry) + '>' + entry_2 + '</div>',
+            flex: {
+                format: '<div style="display:flex;" ' + convertToAttribute(value) + '>',
             },
-            $fSlash$block: {
+            grid: {
+                format: '<div style="display:grid;" ' + convertToAttribute(value) + '>',
+            },
+            line: {
+                format: '<div style="display:inline;" ' + convertToAttribute(value) + '>',
+            },
+            $leftPoint$$slash$$rightPoint$: {
                 format: '</div>',
-            },
-
-
-            // Span (link item)
-            item: {
-                format: '<span ' + convertToAttribute(entry) + '>',
-            },
-            lni: {
-                format: '<span ' + convertToAttribute(entry) + '>' + entry_2 + '</span>',
-            },
-            $fSlash$item: {
-                format: '</span>',
             },
         }
 
-        
-        // Ignore blank lines
-        if (command == '') {
-            void(0);
-        } 
-        // Ignore comments
-        else if (command == '##'){
-            void (0);
-        } 
+
+        // Interpreting Instructions
+
         // If command exists
-        else if (objects[command] !== undefined) {
-            let format = objects[command]['format'];
-            content = content + format;
+        if (objects[instruction]) {
+            collection += objects[instruction]['format'];
         } 
+        // If it does not exist, throw error
         else {
-            if (!command.includes('$colon$$colon$')) {
-                console.warn('Syntax Error: "' + canvas + '"');
-            }
+            console.warn('Syntax Error: "' + line + '"');
         }
     }
     console.timeEnd('Compiler Time');
-    return content;
+    return collection;
 }
 
 function convertToAttribute(attributes) {
     if (attributes !== undefined) {
-        return attributes.replace(/\[/g, '="').replace(/\]/g, '"');
+        return attributes.replace('.','class').replace('#','id').replace('$','onclick').replace('@','name').replaceAll('[', '="').replaceAll(']', '"');
     } else {
         return '';
     }
