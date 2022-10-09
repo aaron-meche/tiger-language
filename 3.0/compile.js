@@ -280,6 +280,7 @@ function unspace(string) {
 
 
 function open_page(page) {
+    sessionStorage['activePage'] = page;
     boot(page);
 }
 
