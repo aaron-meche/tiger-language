@@ -280,7 +280,7 @@ function unspace(string) {
 
 
 function open_page(page) {
-    readTextFile(page);
+    boot(page);
 }
 
 function open_url(page) {
