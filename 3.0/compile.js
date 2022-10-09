@@ -224,7 +224,7 @@ function compile(code) {
             elem: {
                 format: '<div ' + convertToAttribute(value) + '>',
             },            
-            lnelem: {
+            elt: {
                 format: '<div ' + convertToAttribute(value) + '>' + extra + '</div>',
             },
             block: {
