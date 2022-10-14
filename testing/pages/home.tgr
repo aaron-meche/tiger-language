@@ -1,42 +1,8 @@
-import css > style/main.css
+import css > style/main
+import js > main
 
+preload > magic
 
-elem > .[hello]
+elem > .[hello] $[open_page('magic')]
     : Hello
 </>
-
-
-
-
-
-
-
-
-~  OLD SYNTAX
-
-import css : style/main.css
-import js : scripts/index.js
-
-block : class[square] id[bigSquare] onclick[alert("LAUGHING OUT LOUD")]
-    :: Hello, this is the content of the square
-/block
-
-
-~  NEW SYNTAX
-
-import css > style/main
-import js > scripts/index
-
-block > .[square] #[bigSquare] $[alert('LAUGHING OUT LOUD')]
-    : Hello, this is the content of the square
-</>
-
-
-~  FUTURE SYNTAX
-
-import css from style/main
-import js from scripts/index
-
-block > .square. #bigSquare# $alert("LAUGHING OUT LOUD")$
-    : Hello, this is the content of the square
-/

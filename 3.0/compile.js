@@ -4,9 +4,6 @@ var loadKey;
 
 // When the page loads
 window.addEventListener('load', function () {
-    // Hide the body
-    document.body.style.visbility = 'hidden';
-
     // Get Page Push
     let url = new URLSearchParams(document.location.search);
     let pagePush = url.get('p');
@@ -28,14 +25,8 @@ window.addEventListener('load', function () {
 function boot(fileName) {
     let rawFile = new XMLHttpRequest();
 
-    // If encrypt tiger, change source
-    var filePath = 'pages/';
-    if (document.head.innerHTML.includes('<meta name="encrypt-tiger">')) {
-        filePath = '../pages/';
-    }
-
     // Get contents of page
-    rawFile.open("GET", filePath + fileName + ".tgr", true);
+    rawFile.open("GET", 'pages/' + fileName + ".tgr", true);
     rawFile.onreadystatechange = function() {
         if (rawFile.readyState === 4) {
             // If page does not exist
@@ -45,7 +36,7 @@ function boot(fileName) {
             } 
             // If page exists, build page
             else {
-                buildPage(rawFile.responseText);
+                buildPage(compile(rawFile.responseText));
             }
         }
     }
@@ -53,22 +44,30 @@ function boot(fileName) {
 }
 
 function buildPage(code) {
-    // Get compiled code
-    let convertedCode = compile(code)
-    document.body.innerHTML = convertedCode;
+    document.body.innerHTML = code;
 
-    // If call for importing JS, import here
-    if (convertedCode.includes('<meta name="import-js"')) {
-        var script = document.createElement("script");
-        script.src = document.querySelector('meta[name="import-js"]').content;
-        script.type = "text/javascript";
-        document.head.appendChild(script);
-    };
+    // Javascript Imports
+    let jsImports = dom_c('JS-Import');
+    if (jsImports) {
+        for (let i = 0; i < jsImports.length; i++) {
+            var script = document.createElement("script");
+            script.src = jsImports[i].innerText;
+            script.type = "text/javascript";
+            document.head.appendChild(script);
+        }
+    }
 
-    // Allow the body of the document to be visible
-    document.body.style.visbility = 'visible';
+    // Page Preloading
+    let pagePreload = dom_c('page-preload-request');
+    if (pagePreload) {
+        for (let i = 0; i < pagePreload.length; i++) {
+            preload(pagePreload[i].innerText);
+        }
+    }
+
     main();
-    if (convertedCode.includes("<meta name='tiger-ui'>")) {
+
+    if (code.includes("<meta name='tiger-ui'>")) {
         initiateUI();
     }
 }
@@ -183,7 +182,7 @@ function compile(code) {
                 format: '<link rel="stylesheet" href="' + value + '.css" ' + convertToAttribute(extra) + '>',
             },
             importjs: {
-                format: '<meta name="import-js" content="' + value + '.js"></script>',
+                format: '<div class="JS-Import" style="display:none">' + value + '.js</div>',
             },
             importwebicon: {
                 format: '<link rel="shortcut icon" type="image/jpg" href="' + value + '" ' + convertToAttribute(extra) + '>',
@@ -199,9 +198,9 @@ function compile(code) {
             },
 
 
-            // Modules
-            moduleinfo: {
-                format: "<item moduleInfo='" + value + "'>",
+            // Page Preloading
+            preload: {
+                format: "<div class='page-preload-request' style='display:none'>" + value + "</div>",
             },
 
 
@@ -281,7 +280,11 @@ function unspace(string) {
 
 function open_page(page) {
     sessionStorage['activePage'] = page;
-    boot(page);
+    if (sessionStorage['page preload: ' + page]) {
+        buildPage(sessionStorage['page preload: ' + page]);
+    } else {
+        boot(page);
+    }
 }
 
 function open_url(page) {
@@ -344,6 +347,26 @@ function generateKey(amount) {
         generatedKey = generatedKey + library[Math.floor(Math.random() * library.length)];
     }
     return generatedKey;
+}
+
+function preload(fileName) {
+    let rawFile = new XMLHttpRequest();
+
+    // Get contents of page
+    rawFile.open("GET", 'pages/' + fileName + ".tgr", true);
+    rawFile.onreadystatechange = function() {
+        if (rawFile.readyState === 4) {
+            // If page does not exist
+            if (rawFile.responseText.includes('<pre>Cannot GET')) {
+                console.error('Page Not Found! Preload failed due to 404 error: ' + fileName + '.tgr');
+            } 
+            // If page exists, build page
+            else {
+                sessionStorage['page preload: ' + fileName] = compile(rawFile.responseText);
+            }
+        }
+    }
+    rawFile.send();
 }
 
 
