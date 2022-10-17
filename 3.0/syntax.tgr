@@ -1,7 +1,0 @@
-import lib > tigerUI
-import css > main.css
-import js > index.js
-
-block > .navbar top. #mainNavbar#
-    : What is your favorite color?
-</>

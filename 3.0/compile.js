@@ -64,12 +64,12 @@ function buildPage(code) {
             preload(pagePreload[i].innerText);
         }
     }
-
-    main();
-
     if (code.includes("<meta name='tiger-ui'>")) {
         initiateUI();
     }
+
+    document.querySelector('[load="boot"]').style.visibility = 'visible';
+    main();
 }
 
 
@@ -111,7 +111,13 @@ function compile(code) {
         } 
         // If not, treat as normal and remove spaces
         else {
-            instruction = instruction.toLowerCase().replaceAll(' ', '').replaceAll('<', '$leftPoint$').replaceAll('>', '$rightPoint$').replaceAll('/', '$slash$');
+            instruction = instruction.toLowerCase()
+            instruction = instruction.replaceAll(' ', '')
+            instruction = instruction.replaceAll('<', '$leftPoint$')
+            instruction = instruction.replaceAll('>', '$rightPoint$')
+            instruction = instruction.replaceAll('/', '$slash$');
+            instruction = instruction.replaceAll(' ', '');
+            instruction = instruction.replaceAll('-', '');
         }
 
 
@@ -241,6 +247,10 @@ function compile(code) {
             $leftPoint$$slash$$rightPoint$: {
                 format: '</div>',
             },
+
+            screen: {
+                format: '<div tgrType="screen" style="height:100vh; width:100vw; position:absolute; top:0; left:0; visibility:hidden;"' + convertToAttribute(value) + '>',
+            }, 
         }
 
 
@@ -261,7 +271,19 @@ function compile(code) {
 
 function convertToAttribute(attributes) {
     if (attributes !== undefined) {
-        return attributes.replace('.','class').replace('#','id').replace('$','onclick').replace('@','name').replaceAll('[', '="').replaceAll(']', '"');
+        // Base
+        attributes = attributes.replace('.','class')
+        attributes = attributes.replace('#','id')
+        attributes = attributes.replace('$','onclick')
+        attributes = attributes.replace('@','name')
+        // Required for Compile
+        attributes = attributes.replaceAll('[','="')
+        attributes = attributes.replaceAll(']','"')
+        // Tiger UI Framework
+        attributes = attributes.replace('%boot','load="boot"')
+        attributes = attributes.replace('*','appear')
+        attributes = attributes.replace('?','screenTitle')
+        return attributes;
     } else {
         return '';
     }
@@ -284,6 +306,30 @@ function open_page(page) {
         buildPage(sessionStorage['page preload: ' + page]);
     } else {
         boot(page);
+    }
+}
+
+function open_screen(title, method) {
+    let screens = document.querySelectorAll('[tgrType="screen"]');
+    let target = document.querySelector('[screenTitle="' + title + '"]');
+
+    if (method == 'swap') {
+        for (let i = 0; i < screens.length; i++) {
+            screens[i].style.visibility = 'hidden';
+        }
+        target.style.visibility = 'visible';
+    }
+    else if (method == 'forward') {
+        target.style.left = '100vw';
+        target.style.visibility = 'visible';
+        setTimeout(function() {
+            target.style.transitionDuration = '500ms';
+            target.style.left = '0';
+        }, 1);
+        target.style.transitionDuration = '0';
+    }
+    else {
+        console.error("Invalid Transition Argument: [ [  " + method + "  ] ]")
     }
 }
 

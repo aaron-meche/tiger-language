@@ -1,8 +1,10 @@
-import css > style/main
-import js > main
+screen > ?[Welcome] %boot .[start-screen]
+    : Hello, welcome to tigerUI
+    button > Swap > $[open_screen('Alert', 'swap')]
+    button > Forward > $[open_screen('Alert', 'forward')]
+</>
 
-preload > magic
-
-elem > .[hello] $[open_page('magic')]
-    : Hello
+screen > ?[Alert] .[new-screen]
+    : Tiger UI is a web framework designed for convenience and ease of use.
+    button > Back > $[open_screen('Welcome', 'back')]
 </>

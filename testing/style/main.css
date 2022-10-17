@@ -1,10 +1,17 @@
 body{
     margin: 0;
-    background-color: beige;
+    font-size: 20pt;
 }
 
-.hello{
-    height: 15vh;
-    width: 15vw;
-    background-color:  blue;
+button{
+    padding: 5pt;
+    font-size: 20pt;
+}
+
+.start-screen{
+    background-color: pink;
+}
+
+.new-screen{
+    background-color: beige;
 }
