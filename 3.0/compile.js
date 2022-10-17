@@ -68,7 +68,7 @@ function buildPage(code) {
         initiateUI();
     }
 
-    document.querySelector('[load="boot"]').style.visibility = 'visible';
+    // document.querySelector('[load="boot"]').style.visibility = 'visible';
     main();
 }
 
@@ -309,29 +309,29 @@ function open_page(page) {
     }
 }
 
-function open_screen(title, method) {
-    let screens = document.querySelectorAll('[tgrType="screen"]');
-    let target = document.querySelector('[screenTitle="' + title + '"]');
+// function open_screen(title, method) {
+//     let screens = document.querySelectorAll('[tgrType="screen"]');
+//     let target = document.querySelector('[screenTitle="' + title + '"]');
 
-    if (method == 'swap') {
-        for (let i = 0; i < screens.length; i++) {
-            screens[i].style.visibility = 'hidden';
-        }
-        target.style.visibility = 'visible';
-    }
-    else if (method == 'forward') {
-        target.style.left = '100vw';
-        target.style.visibility = 'visible';
-        setTimeout(function() {
-            target.style.transitionDuration = '500ms';
-            target.style.left = '0';
-        }, 1);
-        target.style.transitionDuration = '0';
-    }
-    else {
-        console.error("Invalid Transition Argument: [ [  " + method + "  ] ]")
-    }
-}
+//     if (method == 'swap') {
+//         for (let i = 0; i < screens.length; i++) {
+//             screens[i].style.visibility = 'hidden';
+//         }
+//         target.style.visibility = 'visible';
+//     }
+//     else if (method == 'forward') {
+//         target.style.left = '100vw';
+//         target.style.visibility = 'visible';
+//         setTimeout(function() {
+//             target.style.transitionDuration = '500ms';
+//             target.style.left = '0';
+//         }, 1);
+//         target.style.transitionDuration = '0';
+//     }
+//     else {
+//         console.error("Invalid Transition Argument: [ [  " + method + "  ] ]")
+//     }
+// }
 
 function open_url(page) {
     window.open(page, '_self')
