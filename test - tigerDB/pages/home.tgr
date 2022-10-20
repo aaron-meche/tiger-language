@@ -1,0 +1,9 @@
+hhh > Log In
+input > type[text] placeholder[Username] id[loginInput_user]
+input > type[password] placeholder[Password] id[loginInput_pass]
+button > Submit > onclick[logIn()]
+
+hhh > Sign Up
+input > type[text] placeholder[Username] id[signupInput_user]
+input > type[password] placeholder[Password] id[signupInput_pass]
+button > Submit > onclick[signUp()]

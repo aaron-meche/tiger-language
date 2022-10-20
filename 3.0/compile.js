@@ -8,82 +8,62 @@ window.addEventListener('load', function () {
     let url = new URLSearchParams(document.location.search);
     let pagePush = url.get('p');
 
-    // Default Page Load
-    if (pagePush == undefined) {
-        if (sessionStorage['activePage'] == undefined) {
-            sessionStorage['activePage'] = 'home';
-        }
-        boot(sessionStorage['activePage']);
-    } 
     // If Page Push Present
-    else {
+    if (pagePush) {
         boot(pagePush);
         open_url('index.html');
+    } 
+    // Default Page Load
+    else {
+        if (sessionStorage['activePage']) {
+            boot(sessionStorage['activePage']);
+        } else {
+            sessionStorage['activePage'] = 'home';
+        }
     }
 })
 
 function boot(fileName) {
-    let rawFile = new XMLHttpRequest();
+    let content = fetchContents('pages/' + fileName + '.tgr');
+    if (content.includes('<pre>Cannot GET')) {
+        console.warn('404 Error: Page not found');
+        open_page('home');
+    } 
+    // If page exists, build page
+    else {
+        document.body.innerHTML = compile(content);
 
-    // Get contents of page
-    rawFile.open("GET", 'pages/' + fileName + ".tgr", true);
-    rawFile.onreadystatechange = function() {
-        if (rawFile.readyState === 4) {
-            // If page does not exist
-            if (rawFile.responseText.includes('<pre>Cannot GET')) {
-                alert('Error 404');
-                open_page('home');
-            } 
-            // If page exists, build page
-            else {
-                buildPage(compile(rawFile.responseText));
+        // Javascript Imports
+        let jsImports = dom_c('JS-Import');
+        if (jsImports) {
+            for (let i = 0; i < jsImports.length; i++) {
+                var script = document.createElement("script");
+                script.src = jsImports[i].innerText;
+                script.type = "text/javascript";
+                document.head.appendChild(script);
             }
         }
-    }
-    rawFile.send();
-}
-
-function buildPage(code) {
-    document.body.innerHTML = code;
-
-    // Javascript Imports
-    let jsImports = dom_c('JS-Import');
-    if (jsImports) {
-        for (let i = 0; i < jsImports.length; i++) {
-            var script = document.createElement("script");
-            script.src = jsImports[i].innerText;
-            script.type = "text/javascript";
-            document.head.appendChild(script);
+    
+        // Page Preloading
+        let pagePreload = dom_c('page-preload-request');
+        if (pagePreload) {
+            for (let i = 0; i < pagePreload.length; i++) {
+                preload(pagePreload[i].innerText);
+            }
         }
-    }
 
-    // Page Preloading
-    let pagePreload = dom_c('page-preload-request');
-    if (pagePreload) {
-        for (let i = 0; i < pagePreload.length; i++) {
-            preload(pagePreload[i].innerText);
-        }
+        main();
     }
-    if (code.includes("<meta name='tiger-ui'>")) {
-        initiateUI();
-    }
-
-    // document.querySelector('[load="boot"]').style.visibility = 'visible';
-    main();
 }
 
 
 
 // COMPILER
 
-
-
-let compileTime = 0;
-
 function compile(code) {
     // Will hold viewport contents
     var collection = '';
-    var splitCode = code.split(/\n/);
+    var splitCode = code.split('\n');
     console.time('Compiler Time');
 
     // Cycles through every line of code
@@ -94,6 +74,7 @@ function compile(code) {
         let extra = line[2];
 
 
+
         // Reading Lines
 
         // Ignore blank lines
@@ -101,7 +82,7 @@ function compile(code) {
             continue;
         } 
         // Ignore comments
-        if (line[0].trim().split('')[0] == '~') {
+        else if (line[0].trim().split('')[0] == '~') {
             continue;
         } 
         // Check if normal text
@@ -276,13 +257,13 @@ function convertToAttribute(attributes) {
         attributes = attributes.replace('#','id')
         attributes = attributes.replace('$','onclick')
         attributes = attributes.replace('@','name')
+        // Used for data transfers
+        attributes = attributes.replace('*local','localDataFetch="true" location')
+        attributes = attributes.replace('*session','sessionDataFetch="true" location')
+        attributes = attributes.replace('*db','dbDataFetch="true" location')
         // Required for Compile
         attributes = attributes.replaceAll('[','="')
         attributes = attributes.replaceAll(']','"')
-        // Tiger UI Framework
-        attributes = attributes.replace('%boot','load="boot"')
-        attributes = attributes.replace('*','appear')
-        attributes = attributes.replace('?','screenTitle')
         return attributes;
     } else {
         return '';
@@ -290,15 +271,13 @@ function convertToAttribute(attributes) {
 }
 
 function unspace(string) {
-    let newstring = string.replace(/\s/g, '')
-    return newstring;
+    string = string.replaceAll(' ', '');
+    return string;
 }
 
 
 
 // LIBRARY
-
-
 
 function open_page(page) {
     sessionStorage['activePage'] = page;
@@ -309,64 +288,20 @@ function open_page(page) {
     }
 }
 
-// function open_screen(title, method) {
-//     let screens = document.querySelectorAll('[tgrType="screen"]');
-//     let target = document.querySelector('[screenTitle="' + title + '"]');
-
-//     if (method == 'swap') {
-//         for (let i = 0; i < screens.length; i++) {
-//             screens[i].style.visibility = 'hidden';
-//         }
-//         target.style.visibility = 'visible';
-//     }
-//     else if (method == 'forward') {
-//         target.style.left = '100vw';
-//         target.style.visibility = 'visible';
-//         setTimeout(function() {
-//             target.style.transitionDuration = '500ms';
-//             target.style.left = '0';
-//         }, 1);
-//         target.style.transitionDuration = '0';
-//     }
-//     else {
-//         console.error("Invalid Transition Argument: [ [  " + method + "  ] ]")
-//     }
-// }
-
 function open_url(page) {
     window.open(page, '_self')
 }
 
-function say(text) {
+function clog(text) {
     console.log(text);
-}
-
-function getVar(id) {
-    return document.getElementById(id).innerText;
 }
 
 function dom(id) {
     return document.getElementById(id);
 }
 
-function dom_s(id) {
-    return document.getElementById(id).style;
-}
-
-function dom_html(id) {
-    return document.getElementById(id).innerHTML;
-}
-
 function dom_c(className) {
     return document.getElementsByClassName(className);
-}
-
-function dom_ci(className, index) {
-    return document.getElementsByClassName(className)[index];
-}
-
-function dom_qa(reference) {
-    return document.querySelectorAll(reference);
 }
 
 function testCompileSpeed(repeat) {
@@ -396,26 +331,19 @@ function generateKey(amount) {
 }
 
 function preload(fileName) {
-    let rawFile = new XMLHttpRequest();
-
-    // Get contents of page
-    rawFile.open("GET", 'pages/' + fileName + ".tgr", true);
-    rawFile.onreadystatechange = function() {
-        if (rawFile.readyState === 4) {
-            // If page does not exist
-            if (rawFile.responseText.includes('<pre>Cannot GET')) {
-                console.error('Page Not Found! Preload failed due to 404 error: ' + fileName + '.tgr');
-            } 
-            // If page exists, build page
-            else {
-                sessionStorage['page preload: ' + fileName] = compile(rawFile.responseText);
-            }
-        }
+    let content = fetchContents('pages/' + fileName + '.tgr');
+    if (content.includes('<pre>Cannot GET')) {
+        console.warn('Page Not Found! Preload failed due to 404 error: ' + fileName + '.tgr');
+    } 
+    // If page exists, build page
+    else {
+        sessionStorage['page preload: ' + fileName] = compile(content);
     }
-    rawFile.send();
 }
 
 
+
+// INSTANT PAGE NAVIGATOR
 
 window.addEventListener('keydown', function (event) {
     // console.log(event.code);
@@ -432,187 +360,41 @@ window.addEventListener('touchstart', (e) => {
 
 
 
+// TIGER DATABASE
 
-
-
-
-
-
-
-
-// BEGIN TIGER UI LIBRARY
-
-
-
-
-
-
-
-
-
-
-
-// This javascript file was designed to be as sophisticated as possible
-// The Tiger UI library is inteded to be as powerful as any other UI library on the market!
-// Designed to make beautiful, easier, and faster UIs
-
-function initiateUI() {
-    say('Tiger UI Version ' + version);
-    initClickables();
-    initPullDownTabs();
-    initCursorFollowers();
-    initRightClickMenus();
+function readDB(link, path, key){
+    let location = `${link}/${path}$read$${key}`;
+    return fetchContents(location);
 }
 
-function initClickables() {
-    let clickables = dom_qa('.clickable');
-    if (clickables) {
-        clickables.forEach(x => {
-            x.addEventListener('mousedown', function() {
-                x.style.opacity = '0.65';
-            });
-            x.addEventListener('mouseup', function() {
-                x.style.opacity = '1';
-            });
+function writeDB(link, path, permissions, value){
+    let key = permissions + '---' + value; 
+    let location = `${link}/${path}$write$${key}`;
+    return fetchContents(location);
+}
 
-            x.addEventListener('touchstart', function() {
-                x.style.opacity = '0.65';
-            });
-            x.addEventListener('touchend', function() {
-                x.style.opacity = '1';
-            });
-        });
+function matchDB(link, path, key){
+    let location = `${link}/${path}$match$${key}`;
+    let response = fetchContents(location);
+    
+    if (response == 'Yes') {
+        return true;
+    } else {
+        return false;
     }
 }
 
-function initPullDownTabs() {
-    let pullTabs = dom_qa('.pull-down-tab');
-    if (pullTabs) {
-        pullTabs.forEach(x => {
-            var offsets = x.parentNode.parentNode.getBoundingClientRect();
-            var top = offsets.top;
+function fetchContents(url) {
+    let xmlhttp = new XMLHttpRequest();
 
-            // Declare editable variables
-            // var startPos = top;
-            var dragOffset;
-            var transDuration = x.parentNode.parentNode.style.transitionDuration;
+    xmlhttp.addEventListener('readystatechange', function( ){
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            return xmlhttp.responseText;
+        }
+    })
 
-            var mouseDown = false;
-            var initBackground = x.parentNode.parentNode.style.background;
+    xmlhttp.open("GET", url, false);
+    xmlhttp.send();
 
-            x.parentNode.parentNode.style.position = 'fixed';
-
-            // MOBILE
-            x.addEventListener('touchstart', function(event) {
-                dragOffset = event.pageY - x.parentNode.parentNode.offsetTop;
-                x.parentNode.parentNode.style.transitionDuration = '0ms';
-            });
-
-            x.addEventListener('touchmove', function(event) {
-                x.parentNode.parentNode.style.top = event.pageY - dragOffset + 'px';
-            });
-
-            x.addEventListener('touchend', function() {
-                if (x.parentNode.parentNode.offsetTop > 50) {
-                    // If pulled down more than 50 pixels, push down
-                    x.parentNode.parentNode.style.transitionDuration = '500ms';
-                    x.parentNode.parentNode.style.top = '100vh';
-
-                    setTimeout(function () {
-                        x.parentNode.parentNode.style.transitionDuration = transDuration;
-                    }, 500);
-                } else {
-                    // Revert back to the start if not pulled down enough
-                    x.parentNode.parentNode.style.transitionDuration = '200ms';
-                    x.parentNode.parentNode.style.top = '0';
-
-                    setTimeout(function () {
-                        x.parentNode.parentNode.style.transitionDuration = transDuration;
-                    }, 200);
-                }
-            });
-            
-            // DESKTOP
-            x.addEventListener('mousedown', function(event) {
-                dragOffset = event.pageY - x.parentNode.parentNode.offsetTop;
-                x.parentNode.parentNode.style.transitionDuration = '0ms';
-                mouseDown = true;
-            });
-            window.addEventListener('mousemove', function(event) {
-                if (mouseDown) {
-                    x.parentNode.parentNode.style.top = event.pageY - dragOffset + 'px';
-                    x.parentNode.parentNode.style.background = 'none';
-                }
-            });
-            x.addEventListener('mouseup', function() {
-                mouseDown = false;
-                if (x.parentNode.parentNode.offsetTop > 50) {
-                    // If pulled down more than 50 pixels, push down
-                    x.parentNode.parentNode.style.transitionDuration = '500ms';
-                    x.parentNode.parentNode.style.top = '100vh';
-                    setTimeout(function () {
-                        x.parentNode.parentNode.style.transitionDuration = transDuration;
-                        x.parentNode.parentNode.style.background = initBackground;
-                    }, 500);
-                } else {
-                    // Revert back to the start if not pulled down enough
-                    x.parentNode.parentNode.style.transitionDuration = '200ms';
-                    x.parentNode.parentNode.style.top = '0';
-                    setTimeout(function () {
-                        x.parentNode.parentNode.style.transitionDuration = transDuration;
-                        x.parentNode.parentNode.style.background = initBackground;
-                    }, 200);
-                }
-            });
-        });
-    }
-}
-
-function initCursorFollowers() {
-    let cursorFollowers = dom_qa('.cursor-follower');
-    if (cursorFollowers) {
-        cursorFollowers.forEach(x => {
-            window.addEventListener('mousemove', function (event) {
-                x.style.opacity = '1'
-                x.style.position = 'fixed';
-                x.style.top = (event.clientY - (x.offsetHeight * 0.5)) + 'px';
-                x.style.left = (event.clientX - (x.offsetWidth * 0.5)) + 'px';
-            })
-            window.addEventListener('mouseout', function () {
-                x.style.opacity = '0';
-            })
-        });
-    }
-}
-
-function initRightClickMenus() {
-    let rightClickMenu = dom_qa('.right-click-menu');
-    if (rightClickMenu) {
-        rightClickMenu.forEach(x => {
-            x.addEventListener('mouseover', function() {
-                x.style.display = 'block';
-            })
-
-            x.addEventListener('mouseout', function() {
-                x.style.display = 'none';
-            })
-
-            window.addEventListener('contextmenu', function (event) {
-                event.preventDefault();
-                x.style.display = 'block';
-                x.style.position = 'absolute';
-                x.style.zIndex = '100000000000';
-                x.style.top = event.pageY - 5 + 'px';
-                x.style.left = event.pageX - 5 + 'px';
-            })
-
-            window.addEventListener('click', function () {
-                x.style.display = 'none';
-            })
-
-            window.addEventListener('scroll', function () {
-                x.style.display = 'none';
-            })
-        });
-    }
+    return xmlhttp.response;
 }

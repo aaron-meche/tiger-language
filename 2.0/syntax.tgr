@@ -1,0 +1,13 @@
+e?.~navbar/
+    : Text
+/
+e?.~card/
+    i?images/landscape/mountain.jpeg?.~showcase/
+    le?.~description/?Description
+    : Card Text
+/
+e?$c[card]
+    i?images/landscape/mountain.jpeg?.~showcase/
+    le?.~description/?Description
+    : Card Text
+/
