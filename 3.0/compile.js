@@ -13,6 +13,7 @@ window.addEventListener('load', function () {
         boot(pagePush);
         open_url('index.html');
     } 
+
     // Default Page Load
     else {
         if (sessionStorage['activePage']) {
@@ -24,14 +25,14 @@ window.addEventListener('load', function () {
 })
 
 function boot(fileName) {
-    let content = fetchContents('pages/' + fileName + '.tgr');
+    let content = compile(fetchContents('pages/' + fileName + '.tgr'));
     if (content.includes('<pre>Cannot GET')) {
         console.warn('404 Error: Page not found');
         open_page('home');
     } 
     // If page exists, build page
     else {
-        document.body.innerHTML = compile(content);
+        document.body.innerHTML = content;
 
         // Javascript Imports
         let jsImports = dom_c('JS-Import');
