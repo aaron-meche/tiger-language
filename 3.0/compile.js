@@ -4,47 +4,33 @@ var loadKey;
 
 // When the page loads
 window.addEventListener('load', function () {
-    // Get Page Push
     let url = new URLSearchParams(document.location.search);
-    let pagePush = url.get('p');
+    let urlPageRequest = url.get('p');
 
-    // If Page Push Present
-    if (pagePush) {
-        boot(pagePush);
+    if (urlPageRequest) {
+        boot(urlPageRequest);
         open_url('index.html');
     } 
-
-    // Default Page Load
     else {
         if (sessionStorage['activePage']) {
             boot(sessionStorage['activePage']);
         } else {
             sessionStorage['activePage'] = 'home';
+            boot('home');
         }
     }
 })
 
 function boot(fileName) {
-    let xmlhttp = new XMLHttpRequest();
-    xmlhttp.addEventListener('readystatechange', function( ){
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            buildPage(compile(xmlhttp.responseText));
-        }
-    })
-    xmlhttp.open("GET", 'pages/' + fileName + '.tgr', false);
-    xmlhttp.send();
-}
-
-function buildPage(content) {
+    let content = fetchContents('pages/' + fileName + '.tgr');
     if (content.includes('<pre>Cannot GET')) {
         console.warn('404 Error: Page not found');
         open_page('home');
     } 
     // If page exists, build page
     else {
-        document.body.innerHTML = content;
+        document.body.innerHTML += compile(content);
 
-        // Javascript Imports
         let jsImports = dom_c('JS-Import');
         if (jsImports) {
             for (let i = 0; i < jsImports.length; i++) {
@@ -55,7 +41,6 @@ function buildPage(content) {
             }
         }
     
-        // Page Preloading
         let pagePreload = dom_c('page-preload-request');
         if (pagePreload) {
             for (let i = 0; i < pagePreload.length; i++) {
