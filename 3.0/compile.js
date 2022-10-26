@@ -284,6 +284,10 @@ function open_page(page) {
     }
 }
 
+function fresh_page(page) {
+    window.open('index.html?p=' + page, '_self')
+}
+
 function open_url(page) {
     window.open(page, '_self')
 }
