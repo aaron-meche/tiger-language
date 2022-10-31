@@ -1,0 +1,17 @@
+body{
+    margin: 0;
+    font-size: 20pt;
+}
+
+button{
+    padding: 5pt;
+    font-size: 20pt;
+}
+
+.start-screen{
+    background-color: pink;
+}
+
+.new-screen{
+    background-color: beige;
+}

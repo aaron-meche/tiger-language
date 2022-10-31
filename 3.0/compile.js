@@ -29,7 +29,7 @@ function boot(fileName) {
     } 
     // If page exists, build page
     else {
-        document.body.innerHTML += compile(content);
+        document.body.innerHTML = compile(content);
 
         let jsImports = dom_c('JS-Import');
         if (jsImports) {
