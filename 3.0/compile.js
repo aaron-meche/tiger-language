@@ -8,6 +8,7 @@ window.addEventListener('load', function () {
     let urlPageRequest = url.get('p');
 
     if (urlPageRequest) {
+        sessionStorage['activePage'] = urlPageRequest;
         boot(urlPageRequest);
         open_url('index.html');
     } 
